@@ -69,6 +69,9 @@ ROOT_URLCONF = 'event_management.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        # Uncomment the line below if you want to use templates in a separate directory as root
+        # 'DIRS': [BASE_DIR / 'templates'], 
+        # Uncomment the line below if you want to use app directories for templates
         'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
