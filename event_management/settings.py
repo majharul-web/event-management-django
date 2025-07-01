@@ -101,7 +101,7 @@ WSGI_APPLICATION = 'event_management.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'task-db',
+        'NAME': 'events-db',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
         'HOST': 'localhost',
