@@ -1,0 +1,56 @@
+{% extends 'events/base.html' %}
+{% block content %}
+
+<div class="flex justify-between items-center mb-6">
+  <h1 class="text-2xl font-bold">🧑 Participants</h1>
+  <a href="{% url 'participant_create' %}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+    + Add Participant
+  </a>
+</div>
+
+
+
+<!-- Participant Table -->
+<div class="overflow-x-auto bg-white shadow rounded-lg">
+  <table class="w-full table-auto text-left">
+    <thead class="bg-gray-100 text-gray-700">
+      <tr>
+        <th class="px-4 py-3">Name</th>
+        <th class="px-4 py-3">Email</th>
+        <th class="px-4 py-3">Events</th>
+        <th class="px-4 py-3 text-right">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for participant in page_obj %}
+      <tr class="border-t hover:bg-gray-50">
+        <td class="px-4 py-3">{{ participant.name }}</td>
+        <td class="px-4 py-3">{{ participant.email }}</td>
+        <td class="px-4 py-3 text-sm text-gray-700">
+          <ul class="list-disc ml-5">
+            {% for event in participant.events.all %}
+              <li>{{ event.name }}</li>
+            {% empty %}
+              <li>No events</li>
+            {% endfor %}
+          </ul>
+        </td>
+        <td class="px-4 py-3 text-right flex space-x-4">
+          <a href="{% url 'participant_update' participant.pk %}" class="text-blue-600 hover:underline">Edit</a>
+          <form action="{% url 'participant_delete' participant.pk %}" method="POST" onsubmit="return confirm('Delete this participant?');">
+            {% csrf_token %}
+            <button type="submit" class="text-red-600 hover:underline">Delete</button>
+          </form>
+        </td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="4" class="text-center py-4 text-gray-500">No participants found.</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+
+{% endblock %}

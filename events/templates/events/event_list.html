@@ -1,0 +1,56 @@
+{% extends 'events/base.html' %}
+{% block content %}
+<div class="flex justify-between items-center mb-6">
+  <h1 class="text-2xl font-bold">📅 Event List</h1>
+  <a href="{% url 'event_create' %}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+    + Add Event
+  </a>
+</div>
+
+
+
+{% comment %} - Event Table  {% endcomment %}
+<div class="overflow-x-auto bg-white shadow rounded-lg">
+  <table class="w-full table-auto text-left">
+    <thead class="bg-gray-100 text-gray-700">
+      <tr>
+        <th class="px-4 py-3">Name</th>
+        <th class="px-4 py-3">Category</th>
+        <th class="px-4 py-3">Date</th>
+        <th class="px-4 py-3">Time</th>
+        <th class="px-4 py-3">Location</th>
+        <th class="px-4 py-3">Participants</th>
+        <th class="px-4 py-3 text-right">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for event in events %}
+      <tr class="border-t hover:bg-gray-50">
+        <td class="px-4 py-3 font-medium">{{ event.name }}</td>
+        <td class="px-4 py-3">{{ event.category.name }}</td>
+        <td class="px-4 py-3">{{ event.date }}</td>
+        <td class="px-4 py-3">{{ event.time }}</td>
+        <td class="px-4 py-3">{{ event.location }}</td>
+        <td class="px-4 py-3">{{ event.participant_set.count }}</td>
+        <td class="px-4 py-3 text-right flex space-x-4">
+            <a href="{% url 'event_update' event.pk %}" class="text-blue-600 hover:underline">Edit</a>
+            <form action="{% url 'event_delete' event.pk %}" method="POST" class="inline-block ml-2" onsubmit="return confirm('Delete this event?');">
+                {% csrf_token %}
+                <button type="submit" class="text-red-600 hover:underline">Delete</button>
+            </form>
+        </td>
+
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="7" class="text-center py-4 text-gray-500">No events found.</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+
+{% endblock %}
+
+

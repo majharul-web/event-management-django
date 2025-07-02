@@ -1,0 +1,33 @@
+{% extends 'events/base.html' %}
+{% block content %}
+
+<div class="text-center mt-12">
+  <h1 class="text-4xl font-bold mb-4 text-blue-700">Welcome to Event Manager 🎉</h1>
+  <p class="text-lg text-gray-700 mb-6">Plan, organize, and track your events effortlessly.</p>
+  <div class="space-x-4">
+    <a href="{% url 'dashboard' %}" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">
+      Go to Dashboard
+    </a>
+    <a href="{% url 'event_list' %}" class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700">
+      View Events
+    </a>
+  </div>
+</div>
+
+<!-- Features Section -->
+<div class="mt-16 grid md:grid-cols-3 gap-6 text-center">
+  <div class="bg-white p-6 rounded-lg shadow hover:shadow-md">
+    <h3 class="text-xl font-semibold mb-2 text-blue-700">🗂 Categorized Events</h3>
+    <p class="text-gray-600">Organize events under meaningful categories for easy filtering.</p>
+  </div>
+  <div class="bg-white p-6 rounded-lg shadow hover:shadow-md">
+    <h3 class="text-xl font-semibold mb-2 text-green-700">👥 Track Participants</h3>
+    <p class="text-gray-600">See how many participants have registered per event.</p>
+  </div>
+  <div class="bg-white p-6 rounded-lg shadow hover:shadow-md">
+    <h3 class="text-xl font-semibold mb-2 text-pink-700">📝 Easy Management</h3>
+    <p class="text-gray-600">Add, update, and delete events, participants, and categories through clean forms.</p>
+  </div>
+</div>
+
+{% endblock %}
