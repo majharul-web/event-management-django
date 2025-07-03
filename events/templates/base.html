@@ -15,67 +15,78 @@
     />
   </head>
   <body class="bg-gray-100 text-gray-800 min-h-screen flex flex-col">
-    <!-- Header / Navbar -->
-    <header class="bg-gradient-to-r from-blue-600 to-indigo-700 text-white shadow relative z-50">
-      <div class="container mx-auto px-4 py-6 flex justify-between items-center">
-        <a href="/" class="text-2xl font-bold">🎉 Event Manager</a>
+    {% comment %} Navigation Bar {% endcomment %}
+    <nav class="bg-primary-gradient text-white shadow-md relative z-50">
+      <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+        <a href="/" class="text-xl font-semibold text-white"> 
+          <i class="fa-solid fa-cloud-moon-rain"></i>
+           Event Manager 
+        </a>
 
-        <!-- Toggle button (mobile only) -->
-        <button id="menu-toggle" class="md:hidden text-2xl">
+        {% comment %} Mobile toggle button {% endcomment %}
+        <button id="mobile-menu-toggle" class="md:hidden text-2xl focus:outline-none">
           <i class="fa-solid fa-bars-staggered"></i>
         </button>
 
-        <!-- Nav Links (desktop) -->
-        <nav class="hidden md:flex space-x-6 font-medium">
+        {% comment %} Desktop Nav Links {% endcomment %}
+        <div class="hidden md:flex space-x-4 font-medium">
           <a href="{% url 'event_list' %}" class="hover:underline">All Events</a>
           <a href="{% url 'dashboard' %}" class="hover:underline">Dashboard</a>
           <a href="{% url 'about' %}" class="hover:underline">About</a>
-        </nav>
+        </div>
       </div>
 
-      <!-- Mobile Menu -->
-      <div id="mobile-menu" class="hidden md:hidden px-4 pb-4">
-        <a href="{% url 'event_list' %}" class="block py-2 hover:underline">All Events</a>
-        <a href="{% url 'dashboard' %}" class="block py-2 hover:underline">Dashboard</a>
-        <a href="{% url 'about' %}" class="block py-2 hover:underline">About</a>
+      {% comment %} Mobile Dropdown {% endcomment %}
+      <div
+        id="mobile-dropdown"
+        class="absolute left-0 right-0 bg-primary-gradient text-white text-center py-4 space-y-2 hidden md:hidden transition-all duration-300"
+      >
+        <a href="{% url 'event_list' %}" class="block hover:underline">Events</a>
+        <a href="{% url 'participant_list' %}" class="block hover:underline">Participants</a>
+        <a href="{% url 'category_list' %}" class="block hover:underline">Categories</a>
+        <a href="{% url 'dashboard' %}" class="block hover:underline">Dashboard</a>
       </div>
-    </header>
+    </nav>
 
-    <!-- Main Content Area -->
+    {% comment %} Main Content {% endcomment %}
     <main class="container mx-auto px-6 py-4 flex-grow">
       {% if messages %}
-        <div class="space-y-3 mb-6">
-          {% for message in messages %}
-            <div class="flex justify-between items-center px-4 py-3 rounded shadow-md text-white
-              {% if 'success' in message.tags %} bg-green-500
-              {% elif 'error' in message.tags %} bg-red-500
-              {% else %} bg-blue-500 {% endif %}">
-              <span>{{ message }}</span>
-              <button onclick="this.parentElement.remove()" class="text-lg hover:text-gray-200">
-                <i class="fa-solid fa-xmark"></i>
-              </button>
-            </div>
-          {% endfor %}
+      <div class="space-y-3 mb-6">
+        {% for message in messages %}
+        <div
+          class="flex justify-between items-center px-4 py-3 rounded shadow-md text-white {% if 'success' in message.tags %} bg-green-500 {% elif 'error' in message.tags %} bg-red-500 {% else %} bg-blue-500 {% endif %}"
+        >
+          <span>{{ message }}</span>
+          <button onclick="this.parentElement.remove()" class="text-lg hover:text-gray-200">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
         </div>
-      {% endif %}
-      {% block content %}{% endblock %}
+        {% endfor %}
+      </div>
+      {% endif %} {% block content %}{% endblock %}
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-gray-800 text-white py-4">
+    {% comment %} Footer {% endcomment %}
+    <footer class="bg-rose-300 text-black py-4">
       <div class="container mx-auto text-center text-sm">
         © {% now "Y" %} Event Manager. All rights reserved.
       </div>
     </footer>
 
-    <!-- Script -->
+    {% comment %} JavaScript {% endcomment %}
     <script>
-      const toggleBtn = document.getElementById("menu-toggle");
-      const mobileMenu = document.getElementById("mobile-menu");
+      const toggleBtn = document.getElementById("mobile-menu-toggle");
+      const dropdown = document.getElementById("mobile-dropdown");
 
       toggleBtn.addEventListener("click", () => {
-        mobileMenu.classList.toggle("hidden");
+        dropdown.classList.toggle("hidden");
+      });
+
+      // Close dropdown when a link is clicked (for mobile UX)
+      dropdown.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", () => dropdown.classList.add("hidden"));
       });
     </script>
   </body>
 </html>
+

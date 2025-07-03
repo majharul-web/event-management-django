@@ -1,19 +1,23 @@
 {% extends 'base.html' %}
 {% block content %}
+{% load static %}
 
 <!-- Hero Section -->
-<section class="bg-blue-600 text-white py-20 text-center animate-fadeIn">
-  <h1 class="text-5xl font-bold mb-4">Plan Your Next Event with Ease</h1>
-  <p class="text-lg mb-8">Search, filter, and participate in events that matter.</p>
+<section
+  class="relative bg-cover bg-center bg-no-repeat py-20 text-center animate-fadeIn h-[300px] md:h-[400px]"
+  style="background-image: url('{% static 'images/hero.jpg' %}');"
+>
+  <div class="absolute inset-0 bg-primary-500/60"></div> 
+  
 </section>
 
 <!-- Search & Filters -->
 <section class="py-10 bg-gray-100">
-  <div class="max-w-4xl mx-auto">
+  <div class=" mx-auto">
     <form method="get" class="grid grid-cols-1 md:grid-cols-4 gap-4">
       <input type="text" name="q" placeholder="Search by name or location"
-             class="border p-2 rounded" value="{{ search }}">
-      <select name="category" class="border p-2 rounded">
+             class="border border-primary px-4 py-2 rounded-lg shadow-sm ring-primary focus:outline-none focus:ring-2 focus:ring-opacity-50" value="{{ search }}">
+      <select name="category" class="border border-primary px-4 py-2 rounded-lg shadow-sm ring-primary focus:outline-none focus:ring-2 focus:ring-opacity-50">
         <option value="">All Categories</option>
         {% for cat in categories %}
           <option value="{{ cat.id }}" {% if cat.id|stringformat:"s" == selected_category %}selected{% endif %}>
@@ -21,9 +25,9 @@
           </option>
         {% endfor %}
       </select>
-      <input type="date" name="date_from" class="border p-2 rounded" value="{{ date_from }}">
-      <input type="date" name="date_to" class="border p-2 rounded" value="{{ date_to }}">
-      <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded col-span-full md:col-span-1">
+      <input type="date" name="date_from" class="border border-primary px-4 py-2 rounded-lg shadow-sm ring-primary focus:outline-none focus:ring-2 focus:ring-opacity-50" value="{{ date_from }}">
+      <input type="date" name="date_to" class="border border-primary px-4 py-2 rounded-lg shadow-sm ring-primary focus:outline-none focus:ring-2 focus:ring-opacity-50" value="{{ date_to }}">
+      <button type="submit" class="bg-primary text-white px-4 py-2 rounded hover:bg-primary-gradient transition-colors">
         Filter
       </button>
     </form>
@@ -35,13 +39,14 @@
   <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
     {% for event in events %}
     <a href="{% url 'event_detail' event.pk %}" class="block bg-white rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition no-underline text-inherit">
-      <img src="{{ event.image_url|default:'/static/images/default-event.jpg' }}" alt="{{ event.name }}" class="h-48 w-full object-cover">
+      <img src="{{ event.image_url|default:'/static/images/hero.jpg' }}" alt="{{ event.name }}" class="h-48 w-full object-cover">
       <div class="p-6">
         <h3 class="text-2xl font-semibold mb-2">{{ event.name }}</h3>
         <p class="text-sm text-gray-600 mb-1">{{ event.date }} @ {{ event.time }}</p>
         <p class="text-sm text-gray-600 mb-1">📍 {{ event.location }}</p>
         <p class="text-sm text-gray-600 mb-3">Category: {{ event.category.name }}</p>
         <p class="text-sm text-gray-600 mb-4">{{ event.participants.count }} participants</p>
+        
       </div>
     </a>
     {% empty %}
