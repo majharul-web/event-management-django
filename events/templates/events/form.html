@@ -14,10 +14,14 @@
         {% endif %}
       </div>
     {% endfor %}
-    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-      Submit
+    <button type="submit" class="bg-primary text-white px-4 py-2 rounded hover:bg-primary-gradient transition-colors">
+      {% if form.instance.pk %}
+        Update
+      {% else %}
+        Create
+      {% endif %}
     </button>
-    <a href="javascript:history.back()" class="ml-4 text-gray-600 hover:underline">Cancel</a>
+    <a href="javascript:history.back()" class="ml-4 text-red-600 hover:underline">Cancel</a>
   </form>
 </div>
 {% endblock %}

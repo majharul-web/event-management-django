@@ -6,35 +6,59 @@
     <title>Event Manager</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="{% static 'css/output.css' %}" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+      integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
   </head>
   <body class="bg-gray-100 text-gray-800 min-h-screen flex flex-col">
-    <!-- Navigation Bar -->
-    <header class="bg-gradient-to-r from-blue-600 to-indigo-700 text-white py-6 shadow">
-      <div class="container mx-auto px-4 flex justify-between items-center">
+    <!-- Header / Navbar -->
+    <header class="bg-gradient-to-r from-blue-600 to-indigo-700 text-white shadow relative z-50">
+      <div class="container mx-auto px-4 py-6 flex justify-between items-center">
         <a href="/" class="text-2xl font-bold">🎉 Event Manager</a>
-        <nav class="space-x-4">
+
+        <!-- Toggle button (mobile only) -->
+        <button id="menu-toggle" class="md:hidden text-2xl">
+          <i class="fa-solid fa-bars-staggered"></i>
+        </button>
+
+        <!-- Nav Links (desktop) -->
+        <nav class="hidden md:flex space-x-6 font-medium">
           <a href="{% url 'event_list' %}" class="hover:underline">All Events</a>
           <a href="{% url 'dashboard' %}" class="hover:underline">Dashboard</a>
           <a href="{% url 'about' %}" class="hover:underline">About</a>
         </nav>
+      </div>
+
+      <!-- Mobile Menu -->
+      <div id="mobile-menu" class="hidden md:hidden px-4 pb-4">
+        <a href="{% url 'event_list' %}" class="block py-2 hover:underline">All Events</a>
+        <a href="{% url 'dashboard' %}" class="block py-2 hover:underline">Dashboard</a>
+        <a href="{% url 'about' %}" class="block py-2 hover:underline">About</a>
       </div>
     </header>
 
     <!-- Main Content Area -->
     <main class="container mx-auto px-6 py-4 flex-grow">
       {% if messages %}
-      <div class="space-y-2 mb-6">
-        {% for message in messages %}
-        <div
-          class="px-4 py-3 rounded shadow-md text-white {% if 'success' in message.tags %} bg-green-500 {% elif 'error' in message.tags %} bg-red-500 {% else %} bg-blue-500 {% endif %}"
-        >
-          {{ message }}
+        <div class="space-y-3 mb-6">
+          {% for message in messages %}
+            <div class="flex justify-between items-center px-4 py-3 rounded shadow-md text-white
+              {% if 'success' in message.tags %} bg-green-500
+              {% elif 'error' in message.tags %} bg-red-500
+              {% else %} bg-blue-500 {% endif %}">
+              <span>{{ message }}</span>
+              <button onclick="this.parentElement.remove()" class="text-lg hover:text-gray-200">
+                <i class="fa-solid fa-xmark"></i>
+              </button>
+            </div>
+          {% endfor %}
         </div>
-        {% endfor %}
-      </div>
-      {% endif %} {% block content %}
-      <!-- Page-specific content goes here -->
-      {% endblock %}
+      {% endif %}
+      {% block content %}{% endblock %}
     </main>
 
     <!-- Footer -->
@@ -43,5 +67,15 @@
         © {% now "Y" %} Event Manager. All rights reserved.
       </div>
     </footer>
+
+    <!-- Script -->
+    <script>
+      const toggleBtn = document.getElementById("menu-toggle");
+      const mobileMenu = document.getElementById("mobile-menu");
+
+      toggleBtn.addEventListener("click", () => {
+        mobileMenu.classList.toggle("hidden");
+      });
+    </script>
   </body>
 </html>

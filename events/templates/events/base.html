@@ -6,46 +6,84 @@
     <title>Event Manager</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="{% static 'css/output.css' %}" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+      integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
   </head>
   <body class="bg-gray-100 text-gray-800 min-h-screen flex flex-col">
-    <!-- Navigation Bar -->
-    <nav class="bg-blue-600 text-white shadow-md">
-      <div class="container mx-auto flex justify-between items-center px-6 py-4">
-        <a href="/" class="text-lg font-semibold hover:underline">
-          🎉 Event Manager
-        </a>
+    {% comment %} Navigation Bar {% endcomment %}
+    <nav class="bg-primary-gradient text-white shadow-md relative z-50">
+      <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+        <a href="/" class="text-lg font-semibold hover:underline"> 🎉 Event Manager </a>
 
-        <div class="space-x-4">
+        {% comment %} Mobile toggle button {% endcomment %}
+        <button id="mobile-menu-toggle" class="md:hidden text-2xl focus:outline-none">
+          <i class="fa-solid fa-bars-staggered"></i>
+        </button>
+
+        {% comment %} Desktop Nav Links {% endcomment %}
+        <div class="hidden md:flex space-x-4 font-medium">
           <a href="{% url 'event_list' %}" class="hover:underline">Events</a>
           <a href="{% url 'participant_list' %}" class="hover:underline">Participants</a>
           <a href="{% url 'category_list' %}" class="hover:underline">Categories</a>
           <a href="{% url 'dashboard' %}" class="hover:underline">Dashboard</a>
         </div>
       </div>
+
+      {% comment %} Mobile Dropdown {% endcomment %}
+      <div
+        id="mobile-dropdown"
+        class="absolute left-0 right-0 bg-primary-gradient text-white text-center py-4 space-y-2 hidden md:hidden transition-all duration-300"
+      >
+        <a href="{% url 'event_list' %}" class="block hover:underline">Events</a>
+        <a href="{% url 'participant_list' %}" class="block hover:underline">Participants</a>
+        <a href="{% url 'category_list' %}" class="block hover:underline">Categories</a>
+        <a href="{% url 'dashboard' %}" class="block hover:underline">Dashboard</a>
+      </div>
     </nav>
 
-    <!-- Main Content Area -->
+    {% comment %} Main Content {% endcomment %}
     <main class="container mx-auto px-6 py-4 flex-grow">
       {% if messages %}
-      <div class="space-y-2 mb-6">
+      <div class="space-y-3 mb-6">
         {% for message in messages %}
         <div
-          class="px-4 py-3 rounded shadow-md text-white {% if 'success' in message.tags %} bg-green-500 {% elif 'error' in message.tags %} bg-red-500 {% else %} bg-blue-500 {% endif %}"
+          class="flex justify-between items-center px-4 py-3 rounded shadow-md text-white {% if 'success' in message.tags %} bg-green-500 {% elif 'error' in message.tags %} bg-red-500 {% else %} bg-blue-500 {% endif %}"
         >
-          {{ message }}
+          <span>{{ message }}</span>
+          <button onclick="this.parentElement.remove()" class="text-lg hover:text-gray-200">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
         </div>
         {% endfor %}
       </div>
-      {% endif %} {% block content %}
-      <!-- Page-specific content goes here -->
-      {% endblock %}
+      {% endif %} {% block content %}{% endblock %}
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-gray-800 text-white py-4">
+    {% comment %} Footer {% endcomment %}
+    <footer class="bg-rose-500 text-white py-4">
       <div class="container mx-auto text-center text-sm">
         © {% now "Y" %} Event Manager. All rights reserved.
       </div>
     </footer>
+
+    {% comment %} JavaScript {% endcomment %}
+    <script>
+      const toggleBtn = document.getElementById("mobile-menu-toggle");
+      const dropdown = document.getElementById("mobile-dropdown");
+
+      toggleBtn.addEventListener("click", () => {
+        dropdown.classList.toggle("hidden");
+      });
+
+      // Close dropdown when a link is clicked (for mobile UX)
+      dropdown.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", () => dropdown.classList.add("hidden"));
+      });
+    </script>
   </body>
 </html>

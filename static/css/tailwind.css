@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  .bg-primary-gradient {
+    @apply bg-gradient-to-r from-rose-300 to-rose-500;
+  }
+}
