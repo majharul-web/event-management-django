@@ -3,7 +3,7 @@ module.exports = {
     "./templates/**/*.html",
     "./**/templates/**/*.html",
     "./events/templates/**/*.html",
-    "./events/forms.py", // optional, for inline form class usage
+    "./events/forms.py",
   ],
   theme: {
     extend: {
