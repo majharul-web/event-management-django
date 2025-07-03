@@ -2,9 +2,9 @@ from django.shortcuts import render, redirect
 from .models import Category, Event, Participant
 from .forms import CategoryForm, EventForm, ParticipantForm
 from datetime import date
-from django.db.models import Q
-from django.core.paginator import Paginator
+from django.db.models import Q,Count
 from django.contrib import messages
+from django.core.paginator import Paginator
 
 def home(request):
     categories = Category.objects.all()
@@ -51,43 +51,52 @@ def event_detail(request, pk):
 def about(request):
     return render(request, 'about.html')
 
+
+
 def dashboard(request):
     today = date.today()
-
-    all_events = Event.objects.select_related('category').prefetch_related('participants')
-    total_events = all_events.count()
-    total_participants = Participant.objects.count()
-    total_categories = Category.objects.count()
-
-    upcoming_events = all_events.filter(date__gt=today)
-    past_events = all_events.filter(date__lt=today)
-    today_events = all_events.filter(date=today)
-
     filter_type = request.GET.get('filter', 'all')
+    
+    base_query = Event.objects.select_related('category').prefetch_related('participants')
+    today_events = base_query.filter(date=today).order_by('date')
 
+    # Count distinct participants across all events
+    participant_counts = Participant.objects.aggregate(
+        total_unique_participants=Count('id', distinct=True)
+    )
+
+    # Filtered event logic
     if filter_type == 'upcoming':
-        filtered_events = upcoming_events
+        filtered_events = base_query.filter(date__gt=today).order_by('date')
         title = "Upcoming Events"
     elif filter_type == 'past':
-        filtered_events = past_events
+        filtered_events = base_query.filter(date__lt=today).order_by('-date')
         title = "Past Events"
     elif filter_type == 'today':
-        filtered_events = today_events
+        filtered_events = base_query.filter(date=today)
         title = "Today's Events"
     else:
-        filtered_events = all_events
+        filtered_events = base_query.all().order_by('-date')
         title = "All Events"
 
+    # Event counts
+    counts = Event.objects.aggregate(
+        total_events=Count('id'),
+        upcoming_events=Count('id', filter=Q(date__gt=today)),
+        past_events=Count('id', filter=Q(date__lt=today)),
+        today_events=Count('id', filter=Q(date=today))
+    )
+
     context = {
-        'total_events': total_events,
-        'total_participants': total_participants,
-        'total_categories': total_categories,
+        'counts': counts,
         'today_events': today_events,
         'filtered_events': filtered_events,
         'title': title,
-        'filter_type': filter_type,
+        'total_participants': participant_counts['total_unique_participants'],
     }
+
     return render(request, 'events/dashboard.html', context)
+
 
 
 # ---------- CATEGORY ----------
@@ -187,21 +196,9 @@ def event_delete(request, pk):
 
 # ---------- PARTICIPANT ----------
 def participant_list(request):
-    search_query = request.GET.get('q', '')
-    participants = Participant.objects.all()
-
-    if search_query:
-        participants = participants.filter(
-            Q(name__icontains=search_query) | Q(email__icontains=search_query)
-        )
-
-    paginator = Paginator(participants, 5)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-
+    participants = Participant.objects.all().prefetch_related('event')
     return render(request, 'events/participant_list.html', {
-        'page_obj': page_obj,
-        'search_query': search_query,
+        'participants': participants,
     })
 
 def participant_create(request):

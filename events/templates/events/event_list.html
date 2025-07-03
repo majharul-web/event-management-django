@@ -1,18 +1,20 @@
 {% extends 'events/base.html' %}
 {% block content %}
-<div class="flex justify-between items-center mb-6">
-  <h1 class="text-2xl font-bold">📅 Event List</h1>
-  <a href="{% url 'event_create' %}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-    + Add Event
+
+
+<div class="flex flex-col md:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+  <h1 class="text-xl md:text-2xl font-bold">📅 Event List</h1>
+  <div class="flex justify-end w-full md:w-auto">
+    <a href="{% url 'event_create' %}" class="bg-primary text-white py-1.5 px-3 md:px-4 md:py-2 rounded hover:bg-primary-gradient transition-colors">
+    <i class="fa-solid fa-circle-plus me-2"></i> Add Event
   </a>
+  </div>
 </div>
-
-
 
 {% comment %} - Event Table  {% endcomment %}
 <div class="overflow-x-auto bg-white shadow rounded-lg">
   <table class="w-full table-auto text-left">
-    <thead class="bg-gray-100 text-gray-700">
+    <thead class="bg-gray-100 text-gray-700 text-sm md:text-base">
       <tr>
         <th class="px-4 py-3">Name</th>
         <th class="px-4 py-3">Category</th>
@@ -25,7 +27,7 @@
     </thead>
     <tbody>
       {% for event in events %}
-      <tr class="border-t hover:bg-gray-50">
+      <tr class="border-t hover:bg-gray-50 text-sm md:text-base">
         <td class="px-4 py-3 font-medium">{{ event.name }}</td>
         <td class="px-4 py-3">{{ event.category.name }}</td>
         <td class="px-4 py-3">{{ event.date }}</td>

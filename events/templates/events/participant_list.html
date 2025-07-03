@@ -1,19 +1,22 @@
 {% extends 'events/base.html' %}
 {% block content %}
 
-<div class="flex justify-between items-center mb-6">
-  <h1 class="text-2xl font-bold">🧑 Participants</h1>
-  <a href="{% url 'participant_create' %}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-    + Add Participant
-  </a>
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
+  <h1 class="text-xl md:text-2xl font-bold">🧑 Participants</h1>
+  <div class="flex justify-end w-full md:w-auto">
+    <a href="{% url 'participant_create' %}" class="bg-primary text-white py-1.5 px-3 md:px-4 md:py-2 rounded hover:bg-primary-gradient transition-colors">
+      <i class="fa-solid fa-circle-plus me-2"></i> Add Participant
+    </a>
+  </div>
 </div>
 
 
 
-<!-- Participant Table -->
+
+ {% comment %} Participant Table  {% endcomment %}
 <div class="overflow-x-auto bg-white shadow rounded-lg">
   <table class="w-full table-auto text-left">
-    <thead class="bg-gray-100 text-gray-700">
+    <thead class="bg-gray-100 text-gray-700 text-sm md:text-base">
       <tr>
         <th class="px-4 py-3">Name</th>
         <th class="px-4 py-3">Email</th>
@@ -22,13 +25,13 @@
       </tr>
     </thead>
     <tbody>
-      {% for participant in page_obj %}
-      <tr class="border-t hover:bg-gray-50">
+      {% for participant in participants %}
+      <tr class="border-t hover:bg-gray-50 text-sm md:text-base">
         <td class="px-4 py-3">{{ participant.name }}</td>
         <td class="px-4 py-3">{{ participant.email }}</td>
         <td class="px-4 py-3 text-sm text-gray-700">
           <ul class="list-disc ml-5">
-            {% for event in participant.events.all %}
+            {% for event in participant.event.all %}
               <li>{{ event.name }}</li>
             {% empty %}
               <li>No events</li>

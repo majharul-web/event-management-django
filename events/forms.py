@@ -5,7 +5,7 @@ from datetime import date
 class StyledFormMixin:
     """ Mixing to apply style to form field"""
 
-    default_classes = "border border-blue-600 w-full px-4 py-2 "
+    default_classes = "border border-rose-600 w-full px-4 py-2 rounded-lg shadow-sm ring-rose-500 focus:outline-none focus:ring-2 focus:ring-opacity-50"
 
     def apply_styled_widgets(self):
         for field_name, field in self.fields.items():
@@ -25,17 +25,17 @@ class StyledFormMixin:
             elif isinstance(field.widget, forms.SelectDateWidget):
                 print("Inside Date")
                 field.widget.attrs.update({
-                    "class": "border-2 border-gray-300 p-3 rounded-lg shadow-sm focus:outline-none focus:border-rose-500 focus:ring-rose-500"
+                    'class': 'border border-rose-600 px-4 py-2 rounded-lg shadow-sm ring-rose-500 focus:outline-none focus:ring-2 focus:ring-opacity-50',
                 })
             elif isinstance(field.widget, forms.TimeInput):
                 print("Inside Time")
                 field.widget.attrs.update({
-                    "class": "border-2 border-gray-300 p-3 rounded-lg shadow-sm focus:outline-none focus:border-rose-500 focus:ring-rose-500"
+                    'class': self.default_classes,
                 })
             elif isinstance(field.widget, forms.CheckboxSelectMultiple):
                 print("Inside checkbox")
                 field.widget.attrs.update({
-                    'class': "space-y-2"
+                    'class': "space-y-2 "
                 })
             else:
                 print("Inside else")
