@@ -1,6 +1,6 @@
 from django import forms
 from .models import Category, Event, Participant
-from datetime import date
+from datetime import date,datetime
 
 class StyledFormMixin:
     """ Mixing to apply style to form field"""
@@ -66,7 +66,13 @@ class EventForm(forms.ModelForm, StyledFormMixin):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.apply_styled_widgets()
-  
+
+        self.fields['category'].empty_label = "Select Category"
+        
+        if not self.initial.get('time'):
+            now = datetime.now().strftime('%H:%M')
+            self.fields['time'].initial = now
+    
 
 
 class ParticipantForm(forms.ModelForm, StyledFormMixin):

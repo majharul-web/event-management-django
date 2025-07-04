@@ -7,6 +7,7 @@ urlpatterns = [
     path('about/', views.about, name='about'),
     
     path('events/<int:pk>/', views.event_detail, name='event_detail'),
+    path('events/<int:pk>/join/', views.join_event, name='join_event'),
 
 
     # Dashboard

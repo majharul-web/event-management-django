@@ -30,9 +30,9 @@
 
         {% comment %} Desktop Nav Links {% endcomment %}
         <div class="hidden md:flex space-x-4 font-medium">
-          <a href="{% url 'event_list' %}" class="hover:underline">All Events</a>
+          <a href="/" class="hover:underline">All Events</a>
           <a href="{% url 'dashboard' %}" class="hover:underline">Dashboard</a>
-          <a href="{% url 'about' %}" class="hover:underline">About</a>
+          {% comment %} <a href="{% url 'about' %}" class="hover:underline">About</a> {% endcomment %}
         </div>
       </div>
 
@@ -41,10 +41,9 @@
         id="mobile-dropdown"
         class="absolute left-0 right-0 bg-primary-gradient text-white text-center py-4 space-y-2 hidden md:hidden transition-all duration-300"
       >
-        <a href="{% url 'event_list' %}" class="block hover:underline">Events</a>
-        <a href="{% url 'participant_list' %}" class="block hover:underline">Participants</a>
-        <a href="{% url 'category_list' %}" class="block hover:underline">Categories</a>
-        <a href="{% url 'dashboard' %}" class="block hover:underline">Dashboard</a>
+         <a href="/" class="hover:underline">All Events</a>
+          <a href="{% url 'dashboard' %}" class="hover:underline">Dashboard</a>
+          {% comment %} <a href="{% url 'about' %}" class="hover:underline">About</a> {% endcomment %}
       </div>
     </nav>
 

@@ -4,18 +4,19 @@ from .forms import CategoryForm, EventForm, ParticipantForm
 from datetime import date
 from django.db.models import Q,Count
 from django.contrib import messages
-from django.core.paginator import Paginator
 
+
+# ---------- HOME PAGE ----------
 def home(request):
     categories = Category.objects.all()
 
-    # --- Filters from query parameters ---
+    # Filters from query parameters ---
     search = request.GET.get('q', '')
     category_id = request.GET.get('category', '')
     date_from = request.GET.get('date_from', '')
     date_to = request.GET.get('date_to', '')
 
-    # --- Optimized event query ---
+    # base query for events
     events = Event.objects.select_related('category').prefetch_related('participants').all()
 
     if search:
@@ -53,6 +54,7 @@ def about(request):
 
 
 
+# ---------- DASHBOARD ----------
 def dashboard(request):
     today = date.today()
     filter_type = request.GET.get('filter', 'all')
@@ -154,12 +156,16 @@ def event_list(request):
     return render(request, 'events/event_list.html', {'events': events})
 
 def event_create(request):
-    form = EventForm(request.POST or None)
-    if form.is_valid():
-        form.save()
-        messages.success(request, "Event created successfully!")
-        return redirect('event_list')
+    if request.method == 'POST':
+        form = EventForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Event created successfully!")
+            return redirect('event_list')
+    else:
+        form = EventForm()  
     return render(request, 'events/form.html', {'form': form, 'title': 'Add Event'})
+
 
 def event_update(request, pk):
     try:
@@ -208,6 +214,32 @@ def participant_create(request):
         messages.success(request, "Participant created successfully!")
         return redirect('participant_list')
     return render(request, 'events/form.html', {'form': form, 'title': 'Add Participant'})
+
+def join_event(request, pk):
+    try:
+        event = Event.objects.get(pk=pk)
+    except Event.DoesNotExist:
+        messages.error(request, "Event not found.")
+        return redirect('/')
+
+    if request.method == 'POST':
+        form = ParticipantForm(request.POST)
+        if form.is_valid():
+            participant = form.save()
+            participant.event.add(event)
+            messages.success(request, "You have successfully joined the event!")
+            return redirect('event_detail', pk=pk)
+    else:
+        form = ParticipantForm()
+        form.fields['event'].initial = [event.id]
+        form.fields['event'].disabled = True  
+
+    return render(request, 'form.html', {
+        'form': form,
+        'title': f"Join: {event.name}",
+        'event_id': event.id  
+    })
+
 
 def participant_update(request, pk):
     try:

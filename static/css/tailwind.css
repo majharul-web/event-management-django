@@ -6,4 +6,7 @@
   .bg-primary-gradient {
     @apply bg-gradient-to-r from-rose-300 to-rose-500;
   }
+  .bg-primary-gradient-reverse {
+    @apply bg-gradient-to-r from-rose-500 to-rose-300;
+  }
 }
