@@ -26,13 +26,13 @@
 
  {% comment %} Today's Events  {% endcomment %}
 <div class="bg-white p-6 rounded-lg shadow-md mb-10">
-  <h2 class="text-xl font-semibold text-gray-800 mb-4">📅 Today's Events</h2>
+  <h2 class="text-xl font-semibold text-gray-800 mb-4">📅 Today's Events ({{counts.today_events}})</h2>
   {% if today_events %}
     <ul class="divide-y divide-gray-200">
       {% for event in today_events %}
         <li class="py-3">
           <p class="text-lg font-medium text-gray-900">{{ event.name }}</p>
-          <p class="text-sm text-gray-500">{{ event.time }} @ {{ event.location }}</p>
+          <p class="text-sm text-gray-500">{{ event.time }} at {{ event.location }}</p>
         </li>
       {% endfor %}
     </ul>
