@@ -98,25 +98,25 @@ WSGI_APPLICATION = 'event_management.wsgi.application'
 # }
 
 # for postgresql database
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'events-db',
-#         'USER': 'postgres',
-#         'PASSWORD': 'postgres',
-#         'HOST': 'localhost',
-#         'PORT': '5432'
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'events-db',
+        'USER': 'postgres',
+        'PASSWORD': 'postgres',
+        'HOST': 'localhost',
+        'PORT': '5432'
+    }
+}
 
 # for postgresql database with dj_database_url
 
-DATABASES = {
-    'default': dj_database_url.config(
-        default='postgresql://events_db_4nzl_user:b5v96qjIqRMiE2m0AvUvgbrBRBry6D1K@dpg-d1h9aqumcj7s73dkjdg0-a.oregon-postgres.render.com/events_db_4nzl',
-        conn_max_age=600
-    )
-}
+# DATABASES = {
+#     'default': dj_database_url.config(
+#         default='postgresql://events_db_4nzl_user:b5v96qjIqRMiE2m0AvUvgbrBRBry6D1K@dpg-d1h9aqumcj7s73dkjdg0-a.oregon-postgres.render.com/events_db_4nzl',
+#         conn_max_age=600
+#     )
+# }
 
 
 # Password validation

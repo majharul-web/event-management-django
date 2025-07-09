@@ -26,13 +26,13 @@ if __name__ == '__main__':
 # linux venv activate: source venv/bin/activate
 # linux deactivate: deactivate
 # windows venv activate: venv\Scripts\activate
-# install django: pip install django
-# create a new django project: django-admin startproject event_management .
-# create a new app: django-admin startapp events
 # create requirements.txt: pip freeze > requirements.txt
 # install dependencies: pip install -r requirements.txt
 # see dependencies: pip list
 # make migrations: python manage.py makemigrations
 # migrate database: python manage.py migrate
+# migrate specific app version: python manage.py migrate tasks 0003
+# seed data with faker: python manage.py populate_db
+# create superuser: python manage.py createsuperuser
 # run shell: python manage.py shell
 # run-server: python manage.py runserver
