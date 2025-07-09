@@ -31,7 +31,11 @@
   </head>
   <body class="bg-gray-100 text-gray-800 min-h-screen flex flex-col">
 
-    {% include "navbar.html" %}
+    {% if user.is_authenticated %}
+      {% include "auth_navbar.html" %}
+    {% else %}
+      {% include "navbar.html" %}
+    {% endif %}
 
     {% comment %} Main Content {% endcomment %}
     <main class="container mx-auto px-6 py-4 flex-grow">

@@ -33,7 +33,7 @@ urlpatterns = [
     path('categories/<int:pk>/edit/', views.category_update, name='category_update'),
     path('categories/<int:pk>/delete/', views.category_delete, name='category_delete'),
     
-    path('dashboard/', dashboard, name='dashboard'), 
+    path('dashboard/', views.dashboard, name='dashboard'), 
     
      
 ]

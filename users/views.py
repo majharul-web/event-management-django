@@ -115,6 +115,7 @@ def create_group(request):
 
     return render(request, 'admin/create_group.html', {'form': form})
 
+@user_passes_test(is_admin, login_url='no-permission') 
 def group_list(request):
     groups = Group.objects.prefetch_related('permissions').all()
     return render(request, 'admin/group_list.html', {'groups': groups})
