@@ -4,7 +4,14 @@ from .forms import CategoryForm, EventForm, ParticipantForm
 from datetime import date
 from django.db.models import Q,Count
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required, permission_required
+from users.views import is_admin
 
+def is_organizer(user):
+    return user.groups.filter(name='Organizer').exists()
+
+def is_participant(user):
+    return user.groups.filter(name='Participant').exists()
 
 # ---------- HOME PAGE ----------
 def home(request):
@@ -272,3 +279,13 @@ def participant_delete(request, pk):
     else:
         messages.error(request, "Invalid request method.")
     return redirect('participant_list')
+
+@login_required
+def dashboard(request):
+    if is_organizer(request.user):
+        return redirect('organizer-dashboard')
+    elif is_participant(request.user):
+        return redirect('participant-dashboard')
+    elif is_admin(request.user):
+        return redirect('admin-dashboard')
+    return redirect('no-permission')

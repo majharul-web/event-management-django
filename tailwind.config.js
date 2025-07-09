@@ -3,6 +3,9 @@ module.exports = {
     "./templates/**/*.html",
     "./**/templates/**/*.html",
     "./events/templates/**/*.html",
+    "./**/events/templates/**/*.html",
+    "./users/templates/**/*.html",
+    "./**/users/templates/**/*.html",
     "./events/forms.py",
   ],
   theme: {

@@ -5,7 +5,15 @@
     <meta charset="UTF-8" />
     <title>Event Manager</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="{% static 'css/output.css' %}" />
+    <title>{% block title %}{% endblock title %}</title>
+    <link rel="stylesheet" href="{% static 'css/output.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Noto+Sans+Bengali:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
@@ -13,9 +21,17 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
+
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+      }
+    </style>
+    
   </head>
   <body class="bg-gray-100 text-gray-800 min-h-screen flex flex-col">
-    
+
+    {% include "navbar.html" %}
 
     {% comment %} Main Content {% endcomment %}
     <main class="container mx-auto px-6 py-4 flex-grow">
@@ -35,12 +51,7 @@
       {% endif %} {% block content %}{% endblock %}
     </main>
 
-    {% comment %} Footer {% endcomment %}
-    <footer class="bg-rose-300 text-black py-4">
-      <div class="container mx-auto text-center text-sm">
-        © {% now "Y" %} Event Manager. All rights reserved.
-      </div>
-    </footer>
+    {% include "footer.html" %}
 
     {% comment %} JavaScript {% endcomment %}
     <script>
