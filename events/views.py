@@ -13,56 +13,14 @@ def is_organizer(user):
 def is_participant(user):
     return user.groups.filter(name='Participant').exists()
 
-# ---------- HOME PAGE ----------
-def home(request):
-    categories = Category.objects.all()
 
-    # Filters from query parameters ---
-    search = request.GET.get('q', '')
-    category_id = request.GET.get('category', '')
-    date_from = request.GET.get('date_from', '')
-    date_to = request.GET.get('date_to', '')
-
-    # base query for events
-    events = Event.objects.select_related('category').prefetch_related('participants').all()
-
-    if search:
-        events = events.filter(
-            Q(name__icontains=search) |
-            Q(location__icontains=search)
-        )
-
-    if category_id:
-        events = events.filter(category_id=category_id)
-
-    if date_from:
-        events = events.filter(date__gte=date_from)
-
-    if date_to:
-        events = events.filter(date__lte=date_to)
-
-    context = {
-        'events': events,
-        'categories': categories,
-        'search': search,
-        'selected_category': category_id,
-        'date_from': date_from,
-        'date_to': date_to,
-    }
-
-    return render(request, 'home.html', context)
 
 def event_detail(request, pk):
     event = Event.objects.select_related('category').prefetch_related('participants').get(pk=pk)
     return render(request, 'event_detail.html', {'event': event})
 
-def about(request):
-    return render(request, 'about.html')
-
-
-
 # ---------- DASHBOARD ----------
-def dashboard(request):
+def organizer_dashboard(request):
     today = date.today()
     filter_type = request.GET.get('filter', 'all')
     
@@ -104,7 +62,7 @@ def dashboard(request):
         'total_participants': participant_counts['total_unique_participants'],
     }
 
-    return render(request, 'events/dashboard.html', context)
+    return render(request, 'events/organizer_dashboard.html', context)
 
 
 
@@ -282,10 +240,11 @@ def participant_delete(request, pk):
 
 @login_required
 def dashboard(request):
+    print("User:", request.user)
     if is_organizer(request.user):
-        return redirect('organizer-dashboard')
+        return redirect('organizer_dashboard')
     elif is_participant(request.user):
-        return redirect('participant-dashboard')
+        return redirect('participant_dashboard')
     elif is_admin(request.user):
         return redirect('admin-dashboard')
     return redirect('no-permission')

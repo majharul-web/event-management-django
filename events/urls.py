@@ -2,16 +2,14 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('', views.home, name='home'),
-    path('home/', views.home, name='home'),
-    path('about/', views.about, name='about'),
+
     
     path('events/<int:pk>/', views.event_detail, name='event_detail'),
     path('events/<int:pk>/join/', views.join_event, name='join_event'),
 
 
-    # Dashboard
-    path('dashboard/', views.dashboard, name='dashboard'),
+    #Organizer Dashboard
+    path('organizer-dashboard/', views.organizer_dashboard, name='organizer_dashboard'),
 
     # Event URLs
     path('events/', views.event_list, name='event_list'),
