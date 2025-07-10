@@ -29,7 +29,7 @@ def send_welcome_email(sender, instance, created, **kwargs):
 def assign_default_role(sender, instance, created, **kwargs):
     if created:
         # Assign default role to the user
-        user_group,created = Group.objects.get_or_create(name='User')
+        user_group,created = Group.objects.get_or_create(name='Participant')
         if created:
             instance.groups.add(user_group)
             instance.save()
