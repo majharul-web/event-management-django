@@ -33,7 +33,7 @@
     {% include "auth_navbar.html" %}   
     <!-- Main Layout with Sidebar -->
     <div class="flex">
-      <aside class="w-[250px] bg-white shadow-lg p-4 min-h-screen">
+      <aside class="w-[250px] bg-white shadow-lg px-6 py-4 min-h-screen">
         {% if request.user.is_authenticated %}
           {% if request.user.groups.first.name == "Admin" or request.user.groups.first.name == "Superuser" %}
             {% include "admin_sidebar.html" %}
