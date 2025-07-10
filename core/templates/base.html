@@ -29,10 +29,10 @@
     </style>
     
   </head>
-  <body class="bg-gray-100 text-gray-800 ">
+  <body class="bg-gray-100 text-gray-800 h-[calc(100vh-0px)]">
     {% include "auth_navbar.html" %}   
     <!-- Main Layout with Sidebar -->
-    <div class="flex">
+    <div class="h-[calc(100vh-60px)]">
       <aside class="fixed top-[60px] left-0 w-[250px] h-[calc(100vh-60px)] bg-white shadow-lg px-6 py-4 hidden lg:flex z-40">
         {% if request.user.is_authenticated %}
           {% if request.user.groups.first.name == "Admin" or request.user.groups.first.name == "Superuser" %}
@@ -45,7 +45,7 @@
       </aside>
 
       <!-- Page Content -->
-      <main class="flex flex-col justify-between flex-1 p-6 lg:ml-[250px]" >
+      <main class="p-6 lg:ml-[250px] h-[calc(100vh-60px)] flex flex-col justify-between" >
         <div>
           {% if messages %}
           <div class="mb-6 space-y-3">
