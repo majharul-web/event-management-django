@@ -1,7 +1,7 @@
 {% extends "admin/dashboard.html" %} {% block content %} {% if groups %}
-<div class="container mx-auto p-6">
+<div class="container mx-auto">
   <div class="flex flex-col md:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-    <h1 class="text-xl md:text-2xl font-bold">📅 Event List</h1>
+    <h1 class="text-xl md:text-2xl font-bold">Group List</h1>
     <div class="flex justify-end w-full md:w-auto">
       <a
         href="{% url 'create-group' %}"
