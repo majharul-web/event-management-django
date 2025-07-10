@@ -70,7 +70,7 @@ def activate_account(request, user_id, token):
             return redirect('sign-in')
     except User.DoesNotExist:
         messages.error(request, "User does not exist.")
-        return redirect('sign-in')
+        return redirect('sign-up')
 
 @user_passes_test(is_admin, login_url='no-permission')   
 def admin_dashboard(request):
