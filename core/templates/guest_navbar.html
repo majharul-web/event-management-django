@@ -15,6 +15,10 @@
     <div class="hidden md:flex space-x-4 font-medium">
       <a href="/" class="hover:underline">All Events</a>
       <a href="{% url 'dashboard' %}" class="hover:underline">Dashboard</a>
+      <a href="{% url 'sign-in' %}" class="hover:underline">Sign In</a>
+      <a href="{% url 'sign-up' %}" class="hover:underline">
+        Register
+      </a>
       {% comment %} <a href="{% url 'about' %}" class="hover:underline">About</a> {% endcomment %}
     </div>
   </div>
@@ -25,7 +29,15 @@
     class="absolute left-0 right-0 bg-primary-gradient text-white text-center py-4 space-y-2 hidden md:hidden transition-all duration-300"
   >
     <a href="/" class="hover:underline">All Events</a>
-    <a href="{% url 'dashboard' %}" class="hover:underline">Dashboard</a>
+    <a href="{% url 'dashboard' %}" class="hover:underline">
+      Dashboard
+    </a>
+    <a href="{% url 'sign-in' %}" class="hover:underline">
+      Sign In</a>
+    </a>
+    <a href="{% url 'sign-up' %}" class="hover:underline">
+      Register
+    </a>
     {% comment %} <a href="{% url 'about' %}" class="hover:underline">About</a> {% endcomment %}
   </div>
 </nav>

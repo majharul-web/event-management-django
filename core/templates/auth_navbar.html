@@ -18,7 +18,7 @@
       <a href="{% url 'dashboard' %}" class="hover:underline">Dashboard</a>
       <form method="post" action="{% url 'sign-out' %}">
         {% csrf_token %}
-        <button class="btn-secondary">Logout</button>
+        <button class="hover:underline">Logout</button>
       </form>
     </div>
   </div>
@@ -32,5 +32,9 @@
     <a href="{% url 'participant_list' %}" class="block hover:underline">Participants</a>
     <a href="{% url 'category_list' %}" class="block hover:underline">Categories</a>
     <a href="{% url 'dashboard' %}" class="block hover:underline">Dashboard</a>
+    <form method="post" action="{% url 'sign-out' %}">
+      {% csrf_token %}
+      <button class="hover:underline">Logout</button>
+    </form>
   </div>
 </nav>

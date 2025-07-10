@@ -34,7 +34,7 @@
     {% if user.is_authenticated %}
       {% include "auth_navbar.html" %}
     {% else %}
-      {% include "navbar.html" %}
+      {% include "guest_navbar.html" %}
     {% endif %}
 
     {% comment %} Main Content {% endcomment %}
