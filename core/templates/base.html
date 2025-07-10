@@ -29,46 +29,47 @@
     </style>
     
   </head>
-  <body class="bg-gray-100 text-gray-800 min-h-screen flex flex-col">
+  <body class="bg-gray-100 text-gray-800 min-h-screen">
+    {% include "auth_navbar.html" %}   
+    <!-- Main Layout with Sidebar -->
+    <div class="flex">
+      <aside class="w-[250px] bg-white shadow-lg p-4 min-h-screen">
+        {% if request.user.is_authenticated %}
+          {% if request.user.groups.first.name == "Admin" or request.user.groups.first.name == "Superuser" %}
+            {% include "admin_sidebar.html" %}
+          {% elif request.user.groups.first.name == "Organizer" %}
+            {% include "organizer_sidebar.html" %}
+          {% endif %}
+        {% endif %}  
+       
+      </aside>
 
-    {% if user.is_authenticated %}
-      {% include "auth_navbar.html" %}
-    {% else %}
-      {% include "guest_navbar.html" %}
-    {% endif %}
+      <!-- Page Content -->
+      <main class="flex-1 p-6">
+        {% if messages %}
+          <div class="mb-6 space-y-3">
+            {% for message in messages %}
+              <div class="flex justify-between items-center px-4 py-3 rounded shadow text-white
+                {% if 'success' in message.tags %}bg-green-500
+                {% elif 'error' in message.tags %}bg-red-500
+                {% else %}bg-blue-500{% endif %}">
+                <span>{{ message }}</span>
+                <button onclick="this.parentElement.remove()"><i class="fa fa-xmark"></i></button>
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+        {% block content %}{% endblock %}
 
-    {% comment %} Main Content {% endcomment %}
-    <main class="container mx-auto px-6 py-4 flex-grow">
-      {% if messages %}
-      <div class="space-y-3 mb-6">
-        {% for message in messages %}
-        <div
-          class="flex justify-between items-center px-4 py-3 rounded shadow-md text-white {% if 'success' in message.tags %} bg-green-500 {% elif 'error' in message.tags %} bg-red-500 {% else %} bg-blue-500 {% endif %}"
-        >
-          <span>{{ message }}</span>
-          <button onclick="this.parentElement.remove()" class="text-lg hover:text-gray-200">
-            <i class="fa-solid fa-xmark"></i>
-          </button>
-        </div>
-        {% endfor %}
-      </div>
-      {% endif %} {% block content %}{% endblock %}
-    </main>
-
-    {% include "footer.html" %}
+        {% include "footer.html" %}
+      </main>
+    </div>
 
     {% comment %} JavaScript {% endcomment %}
     <script>
-      const toggleBtn = document.getElementById("mobile-menu-toggle");
-      const dropdown = document.getElementById("mobile-dropdown");
-
-      toggleBtn.addEventListener("click", () => {
-        dropdown.classList.toggle("hidden");
-      });
-
-      // Close dropdown when a link is clicked (for mobile UX)
-      dropdown.querySelectorAll("a").forEach((link) => {
-        link.addEventListener("click", () => dropdown.classList.add("hidden"));
+      
+     document.getElementById('mobile-menu-toggle')?.addEventListener('click', () => {
+        document.getElementById('mobile-sidebar')?.classList.toggle('hidden');
       });
     </script>
   </body>

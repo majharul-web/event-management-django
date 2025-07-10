@@ -1,0 +1,58 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Event Manager</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'css/output.css' %}" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+      integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+  </head>
+  <body class="bg-gray-100 text-gray-800 min-h-screen flex flex-col">
+    {% comment %} Navigation Bar {% endcomment %}
+   {% include "guest_navbar.html" %}
+
+    {% comment %} Main Content {% endcomment %}
+    <main class="container mx-auto px-6 py-4 flex-grow">
+      {% if messages %}
+      <div class="space-y-3 mb-6">
+        {% for message in messages %}
+        <div
+          class="flex justify-between items-center px-4 py-3 rounded shadow-md text-white {% if 'success' in message.tags %} bg-green-500 {% elif 'error' in message.tags %} bg-red-500 {% else %} bg-blue-500 {% endif %}"
+        >
+          <span>{{ message }}</span>
+          <button onclick="this.parentElement.remove()" class="text-lg hover:text-gray-200">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %} {% block content %}{% endblock %}
+    </main>
+
+    {% comment %} Footer {% endcomment %}
+    {% include "guest_footer.html" %}
+
+    {% comment %} JavaScript {% endcomment %}
+    <script>
+      const toggleBtn = document.getElementById("mobile-menu-toggle");
+      const dropdown = document.getElementById("mobile-dropdown");
+
+      toggleBtn.addEventListener("click", () => {
+        dropdown.classList.toggle("hidden");
+      });
+
+      // Close dropdown when a link is clicked (for mobile UX)
+      dropdown.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", () => dropdown.classList.add("hidden"));
+      });
+    </script>
+  </body>
+</html>
+

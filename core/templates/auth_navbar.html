@@ -1,40 +1,19 @@
-<nav class="bg-primary-gradient text-white shadow-md relative z-50">
-  <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-    <a href="/" class="text-xl font-semibold text-white">
-      <i class="fa-solid fa-cloud-moon-rain"></i>
-      Event Manager
-    </a>
+<nav class="bg-white shadow-md">
+  <div class="mx-auto px-4 py-3 flex items-center justify-between">
+    <div class="text-xl font-bold text-blue-600">🎟️ Event Manager</div>
 
-    {% comment %} Mobile toggle button {% endcomment %}
-    <button id="mobile-menu-toggle" class="md:hidden text-2xl focus:outline-none">
-      <i class="fa-solid fa-bars-staggered"></i>
+    <button id="mobile-menu-toggle" class="lg:hidden text-blue-600 text-xl">
+      <i class="fas fa-bars"></i>
     </button>
 
-    {% comment %} Desktop Nav Links {% endcomment %}
-    <div class="hidden md:flex space-x-4 font-medium">
-      <a href="{% url 'event_list' %}" class="hover:underline">Events</a>
-      <a href="{% url 'participant_list' %}" class="hover:underline">Participants</a>
-      <a href="{% url 'category_list' %}" class="hover:underline">Categories</a>
-      <a href="{% url 'dashboard' %}" class="hover:underline">Dashboard</a>
-      <form method="post" action="{% url 'sign-out' %}">
-        {% csrf_token %}
-        <button class="hover:underline">Logout</button>
-      </form>
-    </div>
-  </div>
-
-  {% comment %} Mobile Dropdown {% endcomment %}
-  <div
-    id="mobile-dropdown"
-    class="absolute left-0 right-0 bg-primary-gradient text-white text-center py-4 space-y-2 hidden md:hidden transition-all duration-300"
-  >
-    <a href="{% url 'event_list' %}" class="block hover:underline">Events</a>
-    <a href="{% url 'participant_list' %}" class="block hover:underline">Participants</a>
-    <a href="{% url 'category_list' %}" class="block hover:underline">Categories</a>
-    <a href="{% url 'dashboard' %}" class="block hover:underline">Dashboard</a>
-    <form method="post" action="{% url 'sign-out' %}">
-      {% csrf_token %}
-      <button class="hover:underline">Logout</button>
-    </form>
+    <ul class="hidden lg:flex space-x-6">
+      <li><a href="{% url 'home' %}" class="hover:underline">Home</a></li>
+      <li>
+        <form method="POST" action="{% url 'sign-out' %}">
+          {% csrf_token %}
+          <button type="submit" class="btn">Logout</button>
+        </form>
+      </li>
+    </ul>
   </div>
 </nav>

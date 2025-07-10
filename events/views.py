@@ -244,7 +244,7 @@ def dashboard(request):
     if is_organizer(request.user):
         return redirect('organizer_dashboard')
     elif is_participant(request.user):
-        return redirect('participant_dashboard')
+        return redirect('home')
     elif is_admin(request.user):
         return redirect('admin-dashboard')
     return redirect('no-permission')
