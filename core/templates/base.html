@@ -44,6 +44,35 @@
        
       </aside>
 
+      <!-- Mobile Sidebar Overlay -->
+      <div
+        id="mobile-sidebar"
+        class="fixed inset-0 z-50 backdrop-blur-sm bg-black/30 hidden lg:hidden"
+      >
+        <!-- Sidebar Panel (Slides from Right) -->
+        <div
+          id="mobile-sidebar-panel"
+          class="absolute right-0 top-0 h-full w-[250px] bg-white shadow-lg px-6 py-4 overflow-y-auto transform translate-x-full transition-transform duration-300 ease-in-out"
+        >
+          <!-- Close Button -->
+          <div class="flex justify-end mb-4">
+            <button id="mobile-sidebar-close" class="text-xl text-gray-600">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+
+          <!-- Sidebar Content -->
+          {% if request.user.is_authenticated %}
+            {% if request.user.groups.first.name == "Admin" or request.user.groups.first.name == "Superuser" %}
+              {% include "admin_sidebar.html" %}
+            {% elif request.user.groups.first.name == "Organizer" %}
+              {% include "organizer_sidebar.html" %}
+            {% endif %}
+          {% endif %}
+        </div>
+      </div>
+
+
       <!-- Page Content -->
       <main class="p-6 lg:ml-[250px] h-[calc(100vh-60px)] flex flex-col justify-between" >
         <div>
@@ -69,8 +98,8 @@
 
     
     {% comment %} JavaScript {% endcomment %}
-   <script>
-      // Toggle profile dropdown
+    <script>
+      // Desktop profile dropdown
       const profileToggle = document.getElementById("profile-toggle");
       const profileDropdown = document.getElementById("profile-dropdown");
 
@@ -81,32 +110,89 @@
         });
 
         document.addEventListener("click", function (event) {
-          const isClickInside = profileDropdown.contains(event.target) || profileToggle.contains(event.target);
-          if (!isClickInside) {
+          if (
+            !profileDropdown.contains(event.target) &&
+            !profileToggle.contains(event.target)
+          ) {
             profileDropdown.classList.add("hidden");
           }
         });
       }
 
-      // ✅ Mobile dropdown toggle
+      // Mobile dropdown with slide animation
       const mobileToggle = document.getElementById("mobile-menu-toggle");
       const mobileDropdown = document.getElementById("mobile-dropdown");
 
       if (mobileToggle && mobileDropdown) {
+        let isOpen = false;
+
         mobileToggle.addEventListener("click", (e) => {
           e.stopPropagation();
-          mobileDropdown.classList.toggle("hidden");
+          isOpen = !isOpen;
+
+          if (isOpen) {
+            mobileDropdown.classList.remove("max-h-0");
+            mobileDropdown.classList.add("max-h-[500px]");
+          } else {
+            mobileDropdown.classList.remove("max-h-[500px]");
+            mobileDropdown.classList.add("max-h-0");
+          }
         });
 
-        // Close on outside click
         document.addEventListener("click", function (event) {
-          const isClickInside = mobileDropdown.contains(event.target) || mobileToggle.contains(event.target);
-          if (!isClickInside) {
-            mobileDropdown.classList.add("hidden");
+          if (
+            !mobileDropdown.contains(event.target) &&
+            !mobileToggle.contains(event.target)
+          ) {
+            mobileDropdown.classList.remove("max-h-[500px]");
+            mobileDropdown.classList.add("max-h-0");
+            isOpen = false;
           }
         });
       }
-</script>
+
+
+      const sidebarToggle = document.getElementById("mobile-sidebar-toggle");
+      const sidebarOverlay = document.getElementById("mobile-sidebar");
+      const sidebarPanel = document.getElementById("mobile-sidebar-panel");
+      const sidebarClose = document.getElementById("mobile-sidebar-close");
+
+      function openSidebar() {
+        sidebarOverlay.classList.remove("hidden");
+        setTimeout(() => {
+          sidebarPanel.classList.remove("translate-x-full");
+          sidebarPanel.classList.add("translate-x-0");
+        }, 10);
+      }
+
+      function closeSidebar() {
+        sidebarPanel.classList.remove("translate-x-0");
+        sidebarPanel.classList.add("translate-x-full");
+        setTimeout(() => {
+          sidebarOverlay.classList.add("hidden");
+        }, 300);
+      }
+
+      if (sidebarToggle && sidebarOverlay && sidebarPanel && sidebarClose) {
+        sidebarToggle.addEventListener("click", openSidebar);
+        sidebarClose.addEventListener("click", closeSidebar);
+
+        // Close when clicking outside
+        sidebarOverlay.addEventListener("click", (e) => {
+          if (!sidebarPanel.contains(e.target)) {
+            closeSidebar();
+          }
+        });
+
+        // Close on ESC key
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "Escape" && !sidebarOverlay.classList.contains("hidden")) {
+            closeSidebar();
+          }
+        });
+      }
+    </script>
+
 
 
   </body>
