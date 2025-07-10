@@ -52,24 +52,42 @@
       </button>
 
       <!-- Mobile Dropdown Menu -->
-      <ul
-        id="mobile-dropdown"
-        class="absolute right-0 top-[45px] w-48 bg-white border rounded-md shadow-lg overflow-hidden max-h-0 transition-all duration-300 ease-in-out z-50"
+      <!-- Mobile Dropdown Menu (Slide In) -->
+      <div
+        id="mobile-menu"
+        class="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm hidden lg:hidden"
       >
+        <div
+          id="mobile-menu-panel"
+          class="absolute right-0 top-0 w-[250px] h-full bg-white shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out px-6 py-6"
+        >
+          <!-- Close Button -->
+          <div class="flex justify-end mb-4">
+            <button id="mobile-menu-close" class="text-xl text-gray-600">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
 
-        <li>
-          <a href="{% url 'home' %}" class="block px-4 py-2 hover:bg-gray-100">Home</a>
-        </li>
-        <li>
-          <a href="{% url 'dashboard' %}" class="block px-4 py-2 hover:bg-gray-100">Profile</a>
-        </li>
-        <li>
-          <form method="POST" action="{% url 'sign-out' %}">
-            {% csrf_token %}
-            <button type="submit" class="w-full text-left px-4 py-2 hover:bg-gray-100">Logout</button>
-          </form>
-        </li>
-      </ul>
+          <!-- Menu Content -->
+          <ul class="space-y-3">
+            <li>
+              <a href="{% url 'home' %}" class="block px-4 py-2 hover:bg-gray-100 rounded">Home</a>
+            </li>
+            <li>
+              <a href="{% url 'dashboard' %}" class="block px-4 py-2 hover:bg-gray-100 rounded">Profile</a>
+            </li>
+            <li>
+              <form method="POST" action="{% url 'sign-out' %}">
+                {% csrf_token %}
+                <button type="submit" class="w-full text-left px-4 py-2 hover:bg-gray-100 rounded">
+                  Logout
+                </button>
+              </form>
+            </li>
+          </ul>
+        </div>
+      </div>
+
     </div>
   </div>
 </nav>

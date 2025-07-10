@@ -119,39 +119,48 @@
         });
       }
 
-      // Mobile dropdown with slide animation
-      const mobileToggle = document.getElementById("mobile-menu-toggle");
-      const mobileDropdown = document.getElementById("mobile-dropdown");
+      // Mobile Menu slide-in
+      const mobileMenuToggle = document.getElementById("mobile-menu-toggle");
+      const mobileMenu = document.getElementById("mobile-menu");
+      const mobileMenuPanel = document.getElementById("mobile-menu-panel");
+      const mobileMenuClose = document.getElementById("mobile-menu-close");
 
-      if (mobileToggle && mobileDropdown) {
-        let isOpen = false;
+      function openMobileMenu() {
+        mobileMenu.classList.remove("hidden");
+        setTimeout(() => {
+          mobileMenuPanel.classList.remove("translate-x-full");
+          mobileMenuPanel.classList.add("translate-x-0");
+        }, 10);
+      }
 
-        mobileToggle.addEventListener("click", (e) => {
-          e.stopPropagation();
-          isOpen = !isOpen;
+      function closeMobileMenu() {
+        mobileMenuPanel.classList.remove("translate-x-0");
+        mobileMenuPanel.classList.add("translate-x-full");
+        setTimeout(() => {
+          mobileMenu.classList.add("hidden");
+        }, 300);
+      }
 
-          if (isOpen) {
-            mobileDropdown.classList.remove("max-h-0");
-            mobileDropdown.classList.add("max-h-[500px]");
-          } else {
-            mobileDropdown.classList.remove("max-h-[500px]");
-            mobileDropdown.classList.add("max-h-0");
+      if (mobileMenuToggle && mobileMenu && mobileMenuPanel && mobileMenuClose) {
+        mobileMenuToggle.addEventListener("click", openMobileMenu);
+        mobileMenuClose.addEventListener("click", closeMobileMenu);
+
+        // Close when clicking outside panel
+        mobileMenu.addEventListener("click", (e) => {
+          if (!mobileMenuPanel.contains(e.target)) {
+            closeMobileMenu();
           }
         });
 
-        document.addEventListener("click", function (event) {
-          if (
-            !mobileDropdown.contains(event.target) &&
-            !mobileToggle.contains(event.target)
-          ) {
-            mobileDropdown.classList.remove("max-h-[500px]");
-            mobileDropdown.classList.add("max-h-0");
-            isOpen = false;
+        // ESC key to close
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "Escape" && !mobileMenu.classList.contains("hidden")) {
+            closeMobileMenu();
           }
         });
       }
 
-
+      // Mobile Sidebar toggle
       const sidebarToggle = document.getElementById("mobile-sidebar-toggle");
       const sidebarOverlay = document.getElementById("mobile-sidebar");
       const sidebarPanel = document.getElementById("mobile-sidebar-panel");
