@@ -99,6 +99,69 @@
     
     {% comment %} JavaScript {% endcomment %}
     <script>
+
+       {% comment %}  Desktop profile dropdown {% endcomment %}
+      const profileToggle = document.getElementById("profile-toggle");
+      const profileDropdown = document.getElementById("profile-dropdown");
+
+      if (profileToggle && profileDropdown) {
+        profileToggle.addEventListener("click", (e) => {
+          e.stopPropagation();
+          profileDropdown.classList.toggle("hidden");
+        });
+
+        document.addEventListener("click", function (event) {
+          if (
+            !profileDropdown.contains(event.target) &&
+            !profileToggle.contains(event.target)
+          ) {
+            profileDropdown.classList.add("hidden");
+          }
+        });
+      }
+
+      {% comment %} sidebar {% endcomment %}
+      const sidebarToggle = document.getElementById("mobile-sidebar-toggle");
+      const sidebarOverlay = document.getElementById("mobile-sidebar");
+      const sidebarPanel = document.getElementById("mobile-sidebar-panel");
+      const sidebarClose = document.getElementById("mobile-sidebar-close");
+
+      function openSidebar() {
+        sidebarOverlay.classList.remove("hidden");
+        setTimeout(() => {
+          sidebarPanel.classList.remove("translate-x-full");
+          sidebarPanel.classList.add("translate-x-0");
+        }, 10);
+      }
+
+      function closeSidebar() {
+        sidebarPanel.classList.remove("translate-x-0");
+        sidebarPanel.classList.add("translate-x-full");
+        setTimeout(() => {
+          sidebarOverlay.classList.add("hidden");
+        }, 300);
+      }
+
+      if (sidebarToggle && sidebarOverlay && sidebarPanel && sidebarClose) {
+        sidebarToggle.addEventListener("click", openSidebar);
+        sidebarClose.addEventListener("click", closeSidebar);
+
+        // Close when clicking outside
+        sidebarOverlay.addEventListener("click", (e) => {
+          if (!sidebarPanel.contains(e.target)) {
+            closeSidebar();
+          }
+        });
+
+        // Close on ESC key
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "Escape" && !sidebarOverlay.classList.contains("hidden")) {
+            closeSidebar();
+          }
+        });
+      }
+
+      {% comment %} mobile menu {% endcomment %}
       const toggleBtn = document.getElementById("mobile-menu-toggle");
       const menu = document.getElementById("mobile-menu");
       const panel = document.getElementById("mobile-menu-panel");
