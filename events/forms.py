@@ -14,35 +14,29 @@ class StyledFormMixin:
     def apply_styled_widgets(self):
         for field_name, field in self.fields.items():
             if isinstance(field.widget, forms.TextInput):
-                print("Inside TextInput")
                 field.widget.attrs.update({
                     'class': 'form-input',
                     'placeholder': f"Enter {field.label.lower()}"
                 })
             elif isinstance(field.widget, forms.Textarea):
-                print("Inside Textarea")
                 field.widget.attrs.update({
                     'class': 'form-input resize-none',
                     'placeholder':  f"Enter {field.label.lower()}",
                     'rows': 5
                 })
-            elif isinstance(field.widget, forms.SelectDateWidget):
-                print("Inside Date")
+            elif isinstance(field.widget, forms.SelectDateWidget):          
                 field.widget.attrs.update({
                     'class': 'border border-blue-500 px-4 py-2.5 rounded-lg shadow-sm ring-blue-500 focus:outline-none focus:ring-2 focus:ring-opacity-50 mb-4',
                 })
-            elif isinstance(field.widget, forms.TimeInput):
-                print("Inside Time")
+            elif isinstance(field.widget, forms.TimeInput):  
                 field.widget.attrs.update({
                     'class': 'form-input',
                 })
-            elif isinstance(field.widget, forms.CheckboxSelectMultiple):
-                print("Inside checkbox")
+            elif isinstance(field.widget, forms.CheckboxSelectMultiple):                
                 field.widget.attrs.update({
                     'class': "space-y-2 "
                 })
             else:
-                print("Inside else")
                 field.widget.attrs.update({
                     'class': 'form-input',
                 })
@@ -61,7 +55,7 @@ class CategoryForm(forms.ModelForm, StyledFormMixin):
 class EventForm(forms.ModelForm, StyledFormMixin):
     class Meta:
         model = Event
-        fields = ['name', 'description', 'date', 'time', 'location', 'category']
+        fields = ['name', 'description', 'date', 'time', 'location', 'category','asset']
         widgets = {
             'date': forms.SelectDateWidget(years=range(date.today().year, date.today().year + 5)),
             'time': forms.TimeInput(attrs={'type': 'time'}),

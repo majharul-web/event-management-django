@@ -122,7 +122,7 @@ def event_list(request):
 
 def event_create(request):
     if request.method == 'POST':
-        form = EventForm(request.POST)
+        form = EventForm(request.POST,request.FILES)
         if form.is_valid():
             form.save()
             messages.success(request, "Event created successfully!")
@@ -140,7 +140,9 @@ def event_update(request, pk):
         return redirect('event_list')
 
     if request.method == 'POST':
-        form = EventForm(request.POST, instance=event)
+        form = EventForm(request.POST,request.FILES, instance=event)
+        
+        print("Files data:", request.FILES)
         if form.is_valid():
             form.save()
             messages.success(request, "Event updated successfully!")
