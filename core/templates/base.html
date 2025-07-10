@@ -29,11 +29,11 @@
     </style>
     
   </head>
-  <body class="bg-gray-100 text-gray-800 min-h-screen">
+  <body class="bg-gray-100 text-gray-800 ">
     {% include "auth_navbar.html" %}   
     <!-- Main Layout with Sidebar -->
     <div class="flex">
-      <aside class="w-[250px] bg-white shadow-lg px-6 py-4 min-h-screen">
+      <aside class="w-[250px] bg-white shadow-lg px-6 py-4 hidden lg:flex" style="min-height: calc(100vh - 60px);">
         {% if request.user.is_authenticated %}
           {% if request.user.groups.first.name == "Admin" or request.user.groups.first.name == "Superuser" %}
             {% include "admin_sidebar.html" %}
@@ -45,33 +45,52 @@
       </aside>
 
       <!-- Page Content -->
-      <main class="flex-1 p-6">
-        {% if messages %}
+      <main class="flex flex-col justify-between flex-1 p-6" >
+        <div>
+          {% if messages %}
           <div class="mb-6 space-y-3">
-            {% for message in messages %}
-              <div class="flex justify-between items-center px-4 py-3 rounded shadow text-white
-                {% if 'success' in message.tags %}bg-green-500
-                {% elif 'error' in message.tags %}bg-red-500
-                {% else %}bg-blue-500{% endif %}">
-                <span>{{ message }}</span>
-                <button onclick="this.parentElement.remove()"><i class="fa fa-xmark"></i></button>
-              </div>
-            {% endfor %}
-          </div>
-        {% endif %}
-        {% block content %}{% endblock %}
+              {% for message in messages %}
+                <div class="flex justify-between items-center px-4 py-3 rounded shadow text-white
+                  {% if 'success' in message.tags %}bg-green-500
+                  {% elif 'error' in message.tags %}bg-red-500
+                  {% else %}bg-blue-500{% endif %}">
+                  <span>{{ message }}</span>
+                  <button onclick="this.parentElement.remove()"><i class="fa fa-xmark"></i></button>
+                </div>
+              {% endfor %}
+            </div>
+          {% endif %}
+          {% block content %}{% endblock %}
+        </div>
 
-        {% include "footer.html" %}
+       {% include "footer.html" %}
       </main>
     </div>
 
+    
     {% comment %} JavaScript {% endcomment %}
     <script>
-      
-     document.getElementById('mobile-menu-toggle')?.addEventListener('click', () => {
-        document.getElementById('mobile-sidebar')?.classList.toggle('hidden');
-      });
+     
+      // Toggle profile dropdown
+      const profileToggle = document.getElementById("profile-toggle");
+      const profileDropdown = document.getElementById("profile-dropdown");
+
+      if (profileToggle && profileDropdown) {
+        profileToggle.addEventListener("click", (e) => {
+          e.stopPropagation(); // Prevent clicking outside
+          profileDropdown.classList.toggle("hidden");
+        });
+
+        // Close dropdown on outside click
+        document.addEventListener("click", function (event) {
+          const isClickInside = profileDropdown.contains(event.target) || profileToggle.contains(event.target);
+          if (!isClickInside) {
+            profileDropdown.classList.add("hidden");
+          }
+        });
+      }
     </script>
+
   </body>
 </html>
 

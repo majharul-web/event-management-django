@@ -1,19 +1,50 @@
 <nav class="bg-white shadow-md">
-  <div class="mx-auto px-6 py-4  flex items-center justify-between">
-    <div class="text-xl font-bold text-blue-600">🎟️ Event Manager</div>
+  <div class="mx-auto px-6 py-4 ">
+    <!-- Logo -->
+    <div class="hidden lg:flex items-center justify-between ">
+      <p class="text-xl font-bold text-blue-600">🎟️ Event Manager</p>
+      <!-- Nav Links -->
+      <ul class="hidden lg:flex space-x-6 items-center">
+        <li><a href="{% url 'home' %}" class="hover:underline">Home</a></li>
 
-    <button id="mobile-menu-toggle" class="lg:hidden text-blue-600 text-xl">
+        {% if request.user.is_authenticated %}
+        <!-- Profile dropdown trigger -->
+        <li class="relative">
+          <button id="profile-toggle" class="focus:outline-none">
+            <i class="fas fa-user-circle text-2xl text-blue-600"></i>
+          </button>
+
+          <!-- Dropdown menu -->
+          <ul id="profile-dropdown" class="absolute right-0 mt-2 w-40 bg-white border rounded-md shadow-lg hidden z-50">
+            <li>
+              <a href="{% url 'dashboard' %}" class="block px-4 py-2 hover:bg-gray-100">Profile</a>
+            </li>
+            <li>
+              <form method="POST" action="{% url 'sign-out' %}">
+                {% csrf_token %}
+                <button type="submit" class="w-full text-left px-4 py-2 hover:bg-gray-100">Logout</button>
+              </form>
+            </li>
+          </ul>
+        </li>
+        {% else %}
+        <li><a href="{% url 'sign-in' %}" class="hover:underline">Sign In</a></li>
+        <li><a href="{% url 'sign-up' %}" class="hover:underline">Register</a></li>
+        {% endif %}
+      </ul>
+    </div>
+    
+
+    <div class="flex items-center justify-between lg:hidden">
+      <button id="mobile-sidebar-toggle" class=" text-blue-600 text-xl">
       <i class="fas fa-bars"></i>
-    </button>
+      </button>
+      <span class="text-xl font-bold text-blue-600">🎟️ Event Manager</span>
+      <button id="mobile-menu-toggle" class="text-blue-600 text-xl">
+        <i class="fa-solid fa-ellipsis-vertical"></i>
+      </button>
+    </div>
 
-    <ul class="hidden lg:flex space-x-6">
-      <li><a href="{% url 'home' %}" class="hover:underline">Home</a></li>
-      <li>
-        <form method="POST" action="{% url 'sign-out' %}">
-          {% csrf_token %}
-          <button type="submit" class="btn">Logout</button>
-        </form>
-      </li>
-    </ul>
+
   </div>
 </nav>
