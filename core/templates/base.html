@@ -69,19 +69,17 @@
 
     
     {% comment %} JavaScript {% endcomment %}
-    <script>
-     
+   <script>
       // Toggle profile dropdown
       const profileToggle = document.getElementById("profile-toggle");
       const profileDropdown = document.getElementById("profile-dropdown");
 
       if (profileToggle && profileDropdown) {
         profileToggle.addEventListener("click", (e) => {
-          e.stopPropagation(); // Prevent clicking outside
+          e.stopPropagation();
           profileDropdown.classList.toggle("hidden");
         });
 
-        // Close dropdown on outside click
         document.addEventListener("click", function (event) {
           const isClickInside = profileDropdown.contains(event.target) || profileToggle.contains(event.target);
           if (!isClickInside) {
@@ -89,7 +87,27 @@
           }
         });
       }
-    </script>
+
+      // ✅ Mobile dropdown toggle
+      const mobileToggle = document.getElementById("mobile-menu-toggle");
+      const mobileDropdown = document.getElementById("mobile-dropdown");
+
+      if (mobileToggle && mobileDropdown) {
+        mobileToggle.addEventListener("click", (e) => {
+          e.stopPropagation();
+          mobileDropdown.classList.toggle("hidden");
+        });
+
+        // Close on outside click
+        document.addEventListener("click", function (event) {
+          const isClickInside = mobileDropdown.contains(event.target) || mobileToggle.contains(event.target);
+          if (!isClickInside) {
+            mobileDropdown.classList.add("hidden");
+          }
+        });
+      }
+</script>
+
 
   </body>
 </html>
