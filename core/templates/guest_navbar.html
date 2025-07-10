@@ -1,22 +1,22 @@
-{% comment %} Navigation Bar {% endcomment %}
 <nav class="bg-primary-gradient text-white shadow-md relative z-50">
   <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+    <!-- Logo -->
     <a href="/" class="text-xl font-semibold text-white">
       <i class="fa-solid fa-cloud-moon-rain"></i>
       Event Manager
     </a>
 
-    {% comment %} Mobile toggle button {% endcomment %}
+    <!-- Mobile toggle button -->
     <button id="mobile-menu-toggle" class="md:hidden text-2xl focus:outline-none">
       <i class="fa-solid fa-bars-staggered"></i>
     </button>
 
-    {% comment %} Desktop Nav Links {% endcomment %}
+    <!-- Desktop Nav Links -->
     <div class="hidden md:flex space-x-4 font-medium">
       <a href="/" class="hover:underline">All Events</a>
 
-      {% if user.is_authenticated %}  
-        {% with group=request.user.groups.first %}
+      {% if user.is_authenticated %}
+        {% with group=user.groups.first %}
           {% if group %}
             {% if group.name == "Admin" or group.name == "Organizer" %}
               <a href="{% url 'dashboard' %}" class="hover:underline">Dashboard</a>
@@ -28,34 +28,46 @@
           <button type="submit" class="hover:underline">Logout</button>
         </form>
       {% else %}
-      <a href="{% url 'sign-in' %}" class="hover:underline">Sign In</a>
-      <a href="{% url 'sign-up' %}" class="hover:underline">Register</a>
+        <a href="{% url 'sign-in' %}" class="hover:underline">Sign In</a>
+        <a href="{% url 'sign-up' %}" class="hover:underline">Register</a>
       {% endif %}
     </div>
   </div>
 
-  {% comment %} Mobile Dropdown {% endcomment %}
-  <div
-    id="mobile-dropdown"
-    class="absolute left-0 right-0 bg-primary-gradient text-white text-center py-4 space-y-2 hidden md:hidden transition-all duration-300"
-  >
-      <a href="/" class="hover:underline">All Events</a>
+  <!-- Mobile Slide-In Menu -->
+  <div id="mobile-menu" class="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm hidden">
+    <div
+      id="mobile-menu-panel"
+      class="absolute right-0 top-0 h-full w-[250px] bg-primary-gradient text-white shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out px-6 py-6"
+    >
+      <!-- Close Button -->
+      <div class="flex justify-end mb-4">
+        <button id="mobile-menu-close" class="text-2xl text-white">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
 
-      {% if user.is_authenticated %}  
-        {% with group=request.user.groups.first %}
-          {% if group %}
-            {% if group.name == "Admin" or group.name == "Organizer" %}
-              <a href="{% url 'dashboard' %}" class="hover:underline">Dashboard</a>
+      <!-- Mobile Links -->
+      <div class="space-y-4 text-base font-medium">
+        <a href="/" class="block hover:underline">All Events</a>
+
+        {% if user.is_authenticated %}
+          {% with group=user.groups.first %}
+            {% if group %}
+              {% if group.name == "Admin" or group.name == "Organizer" %}
+                <a href="{% url 'dashboard' %}" class="block hover:underline">Dashboard</a>
+              {% endif %}
             {% endif %}
-          {% endif %}
-        {% endwith %}
-        <form method="POST" action="{% url 'sign-out' %}">
-          {% csrf_token %}
-          <button type="submit" class="hover:underline">Logout</button>
-        </form>
-      {% else %}
-      <a href="{% url 'sign-in' %}" class="hover:underline">Sign In</a>
-      <a href="{% url 'sign-up' %}" class="hover:underline">Register</a>
-    {% endif %}
+          {% endwith %}
+          <form method="POST" action="{% url 'sign-out' %}">
+            {% csrf_token %}
+            <button type="submit" class="w-full text-left hover:underline">Logout</button>
+          </form>
+        {% else %}
+          <a href="{% url 'sign-in' %}" class="block hover:underline">Sign In</a>
+          <a href="{% url 'sign-up' %}" class="block hover:underline">Register</a>
+        {% endif %}
+      </div>
+    </div>
   </div>
 </nav>

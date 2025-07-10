@@ -99,108 +99,45 @@
     
     {% comment %} JavaScript {% endcomment %}
     <script>
-      // Desktop profile dropdown
-      const profileToggle = document.getElementById("profile-toggle");
-      const profileDropdown = document.getElementById("profile-dropdown");
+      const toggleBtn = document.getElementById("mobile-menu-toggle");
+      const menu = document.getElementById("mobile-menu");
+      const panel = document.getElementById("mobile-menu-panel");
+      const closeBtn = document.getElementById("mobile-menu-close");
 
-      if (profileToggle && profileDropdown) {
-        profileToggle.addEventListener("click", (e) => {
-          e.stopPropagation();
-          profileDropdown.classList.toggle("hidden");
-        });
-
-        document.addEventListener("click", function (event) {
-          if (
-            !profileDropdown.contains(event.target) &&
-            !profileToggle.contains(event.target)
-          ) {
-            profileDropdown.classList.add("hidden");
-          }
-        });
-      }
-
-      // Mobile Menu slide-in
-      const mobileMenuToggle = document.getElementById("mobile-menu-toggle");
-      const mobileMenu = document.getElementById("mobile-menu");
-      const mobileMenuPanel = document.getElementById("mobile-menu-panel");
-      const mobileMenuClose = document.getElementById("mobile-menu-close");
-
-      function openMobileMenu() {
-        mobileMenu.classList.remove("hidden");
+      function openMenu() {
+        menu.classList.remove("hidden");
         setTimeout(() => {
-          mobileMenuPanel.classList.remove("translate-x-full");
-          mobileMenuPanel.classList.add("translate-x-0");
+          panel.classList.remove("translate-x-full");
+          panel.classList.add("translate-x-0");
         }, 10);
       }
 
-      function closeMobileMenu() {
-        mobileMenuPanel.classList.remove("translate-x-0");
-        mobileMenuPanel.classList.add("translate-x-full");
+      function closeMenu() {
+        panel.classList.remove("translate-x-0");
+        panel.classList.add("translate-x-full");
         setTimeout(() => {
-          mobileMenu.classList.add("hidden");
+          menu.classList.add("hidden");
         }, 300);
       }
 
-      if (mobileMenuToggle && mobileMenu && mobileMenuPanel && mobileMenuClose) {
-        mobileMenuToggle.addEventListener("click", openMobileMenu);
-        mobileMenuClose.addEventListener("click", closeMobileMenu);
+      if (toggleBtn && menu && panel && closeBtn) {
+        toggleBtn.addEventListener("click", openMenu);
+        closeBtn.addEventListener("click", closeMenu);
 
-        // Close when clicking outside panel
-        mobileMenu.addEventListener("click", (e) => {
-          if (!mobileMenuPanel.contains(e.target)) {
-            closeMobileMenu();
+        menu.addEventListener("click", (e) => {
+          if (!panel.contains(e.target)) {
+            closeMenu();
           }
         });
 
-        // ESC key to close
         document.addEventListener("keydown", (e) => {
-          if (e.key === "Escape" && !mobileMenu.classList.contains("hidden")) {
-            closeMobileMenu();
-          }
-        });
-      }
-
-      // Mobile Sidebar toggle
-      const sidebarToggle = document.getElementById("mobile-sidebar-toggle");
-      const sidebarOverlay = document.getElementById("mobile-sidebar");
-      const sidebarPanel = document.getElementById("mobile-sidebar-panel");
-      const sidebarClose = document.getElementById("mobile-sidebar-close");
-
-      function openSidebar() {
-        sidebarOverlay.classList.remove("hidden");
-        setTimeout(() => {
-          sidebarPanel.classList.remove("translate-x-full");
-          sidebarPanel.classList.add("translate-x-0");
-        }, 10);
-      }
-
-      function closeSidebar() {
-        sidebarPanel.classList.remove("translate-x-0");
-        sidebarPanel.classList.add("translate-x-full");
-        setTimeout(() => {
-          sidebarOverlay.classList.add("hidden");
-        }, 300);
-      }
-
-      if (sidebarToggle && sidebarOverlay && sidebarPanel && sidebarClose) {
-        sidebarToggle.addEventListener("click", openSidebar);
-        sidebarClose.addEventListener("click", closeSidebar);
-
-        // Close when clicking outside
-        sidebarOverlay.addEventListener("click", (e) => {
-          if (!sidebarPanel.contains(e.target)) {
-            closeSidebar();
-          }
-        });
-
-        // Close on ESC key
-        document.addEventListener("keydown", (e) => {
-          if (e.key === "Escape" && !sidebarOverlay.classList.contains("hidden")) {
-            closeSidebar();
+          if (e.key === "Escape" && !menu.classList.contains("hidden")) {
+            closeMenu();
           }
         });
       }
     </script>
+
 
 
 

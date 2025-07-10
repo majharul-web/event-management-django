@@ -49,17 +49,46 @@
     {% comment %} JavaScript {% endcomment %}
     <script>
       const toggleBtn = document.getElementById("mobile-menu-toggle");
-      const dropdown = document.getElementById("mobile-dropdown");
+      const menu = document.getElementById("mobile-menu");
+      const panel = document.getElementById("mobile-menu-panel");
+      const closeBtn = document.getElementById("mobile-menu-close");
 
-      toggleBtn.addEventListener("click", () => {
-        dropdown.classList.toggle("hidden");
-      });
+      function openMenu() {
+        menu.classList.remove("hidden");
+        setTimeout(() => {
+          panel.classList.remove("translate-x-full");
+          panel.classList.add("translate-x-0");
+        }, 10);
+      }
 
-      // Close dropdown when a link is clicked (for mobile UX)
-      dropdown.querySelectorAll("a").forEach((link) => {
-        link.addEventListener("click", () => dropdown.classList.add("hidden"));
-      });
+      function closeMenu() {
+        panel.classList.remove("translate-x-0");
+        panel.classList.add("translate-x-full");
+        setTimeout(() => {
+          menu.classList.add("hidden");
+        }, 300);
+      }
+
+      if (toggleBtn && menu && panel && closeBtn) {
+        toggleBtn.addEventListener("click", openMenu);
+        closeBtn.addEventListener("click", closeMenu);
+
+        // Click outside
+        menu.addEventListener("click", (e) => {
+          if (!panel.contains(e.target)) {
+            closeMenu();
+          }
+        });
+
+        // ESC key
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "Escape" && !menu.classList.contains("hidden")) {
+            closeMenu();
+          }
+        });
+      }
     </script>
+
   </body>
 </html>
 
