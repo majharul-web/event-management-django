@@ -4,6 +4,45 @@ from django.contrib.auth.models import User,Permission, Group
 import re
 from events.forms import StyledFormMixin
 
+class StyledFormMixinA:
+    """ Mixing to apply style to form field"""
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.apply_styled_widgets()
+
+    default_classes = "border border-primary w-full px-4 py-2 rounded-lg shadow-sm ring-primary focus:outline-none focus:ring-2 focus:ring-opacity-50"
+
+    def apply_styled_widgets(self):
+        for field_name, field in self.fields.items():
+            if isinstance(field.widget, forms.TextInput):
+                field.widget.attrs.update({
+                    'class': 'form-input-guest',
+                    'placeholder': f"Enter {field.label.lower()}"
+                })
+            elif isinstance(field.widget, forms.Textarea):
+                field.widget.attrs.update({
+                    'class': 'form-input-guest resize-none',
+                    'placeholder':  f"Enter {field.label.lower()}",
+                    'rows': 5
+                })
+            elif isinstance(field.widget, forms.SelectDateWidget):          
+                field.widget.attrs.update({
+                    'class': 'border border-primary w-full px-4 py-2 rounded-lg shadow-sm ring-primary focus:outline-none focus:ring-2 focus:ring-opacity-50 mb-4',
+                })
+            elif isinstance(field.widget, forms.TimeInput):  
+                field.widget.attrs.update({
+                    'class': 'form-input-guest',
+                })
+            elif isinstance(field.widget, forms.CheckboxSelectMultiple):                
+                field.widget.attrs.update({
+                    'class': "space-y-2 "
+                })
+            else:
+                field.widget.attrs.update({
+                    'class': 'form-input-guest',
+                })
+
 class SignUpForm(UserCreationForm):
     class Meta:
         model = UserCreationForm.Meta.model

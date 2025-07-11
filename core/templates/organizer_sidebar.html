@@ -1,8 +1,22 @@
 <div>
-  <h2 class="text-xl font-bold mb-4 text-green-600">Organizer Panel</h2>
   <ul class="space-y-2">
-    <li><a href="{% url 'dashboard' %}" class="block hover:underline">Dashboard</a></li>
-    <li><a href="{% url 'event_list' %}" class="block hover:underline">Manage Events</a></li>
-    <li><a href="{% url 'category_list' %}" class="block hover:underline">Manage Categories</a></li>
+    <li>
+      <a href="{% url 'dashboard' %}"
+         class="block px-3 py-2 rounded hover:underline {% if request.path == '/events/organizer-dashboard/' %}bg-blue-100 text-blue-600 font-semibold{% endif %}">
+        Dashboard
+      </a>
+    </li>
+    <li>
+      <a href="{% url 'event_list' %}"
+         class="block px-3 py-2 rounded hover:underline {% if request.path == '/events/events/' %}bg-blue-100 text-blue-600 font-semibold{% endif %}">
+        Manage Events
+      </a>
+    </li>
+    <li>
+      <a href="{% url 'category_list' %}"
+         class="block px-3 py-2 rounded hover:underline {% if request.path == '/events/categories/' %}bg-blue-100 text-blue-600 font-semibold{% endif %}">
+        Manage Categories
+      </a>
+    </li>
   </ul>
 </div>

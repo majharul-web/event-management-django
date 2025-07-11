@@ -3,7 +3,10 @@
     <!-- Desktop Navbar -->
     <div class="hidden lg:flex items-center justify-between">
       <!-- Logo -->
-      <p class="text-xl font-bold text-blue-600">🎟️ Event Manager</p>
+      <a href="{% url 'dashboard' %}" class="text-xl font-semibold text-blue-600">
+        <i class="fa-solid fa-cloud-moon-rain"></i>
+        {{ user.groups.first.name|default:"Event Manager" }} Panel
+      </a>
 
       <!-- Nav Links -->
       <ul class="hidden lg:flex space-x-6 items-center">
@@ -44,7 +47,10 @@
       </button>
 
       <!-- Logo center -->
-      <span class="text-xl font-bold text-blue-600">🎟️ Event Manager</span>
+      <a href="{% url 'dashboard' %}" class="text-xl font-semibold text-blue-600">
+        <i class="fa-solid fa-cloud-moon-rain"></i>
+        {{ user.groups.first.name|default:"Event Manager" }} Panel
+      </a>
 
       <!-- Mobile dropdown toggle -->
       <button id="mobile-menu-toggle" class="text-blue-600 text-xl">

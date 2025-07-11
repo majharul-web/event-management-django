@@ -114,6 +114,16 @@ DATABASES = {
 
 # for postgresql database with dj_database_url
 
+DATABASES = {
+    'default': dj_database_url.config(
+        default='postgresql://postgres.ysoarrcrboehcaukwvzw:postgres@aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres',
+        conn_max_age=600
+    )
+}
+# postgresql://postgres:[YOUR-PASSWORD]@db.ysoarrcrboehcaukwvzw.supabase.co:5432/postgres
+
+
+
 # DATABASES = {
 #     'default': dj_database_url.config(
 #         default='postgresql://events_db_4nzl_user:b5v96qjIqRMiE2m0AvUvgbrBRBry6D1K@dpg-d1h9aqumcj7s73dkjdg0-a.oregon-postgres.render.com/events_db_4nzl',

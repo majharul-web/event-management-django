@@ -1,11 +1,11 @@
-{% extends "admin/dashboard.html" %} {% block content %} {% if groups %}
+{% extends 'base.html' %} {% block content %} {% if groups %}
 <div class="container mx-auto">
   <div class="flex flex-col md:flex-row justify-between items-start sm:items-center gap-4 mb-6">
     <h1 class="text-xl md:text-2xl font-bold">Group List</h1>
     <div class="flex justify-end w-full md:w-auto">
       <a
         href="{% url 'create-group' %}"
-        class="bg-primary-gradient text-white py-1.5 px-3 md:px-4 md:py-2 rounded hover:bg-primary-gradient-reverse transition-colors"
+        class="btn-primary"
       >
         <i class="fa-solid fa-circle-plus me-2"></i> Add New Group
       </a>

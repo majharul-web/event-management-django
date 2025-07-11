@@ -9,6 +9,9 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.db.models import Prefetch
+from events.models import Event, Participant
+from datetime import date
+from django.db.models import Q,Count
 
 # Create your views here.
 
@@ -72,7 +75,21 @@ def activate_account(request, user_id, token):
         messages.error(request, "User does not exist.")
         return redirect('sign-up')
 
-@user_passes_test(is_admin, login_url='no-permission')   
+@user_passes_test(is_admin, login_url='no-permission')
+def user_list(request):
+    users = User.objects.prefetch_related(
+        Prefetch('groups', queryset=Group.objects.all(), to_attr='all_groups')  
+    )
+
+    for user in users:
+        if user.all_groups:
+            user.group_name = user.all_groups[0].name
+        else:
+            user.group_name = 'No Group Assigned'
+            
+    return render(request, 'admin/user_list.html', {'users': users})
+
+@user_passes_test(is_admin, login_url='no-permission')  
 def admin_dashboard(request):
     users = User.objects.prefetch_related(
         Prefetch('groups', queryset=Group.objects.all(), to_attr='all_groups')  
@@ -83,7 +100,49 @@ def admin_dashboard(request):
             user.group_name = user.all_groups[0].name
         else:
             user.group_name = 'No Group Assigned'
-    return render(request, 'admin/dashboard.html',{'users': users})
+    
+    today = date.today()
+    filter_type = request.GET.get('filter', 'all')
+    
+    base_query = Event.objects.select_related('category').prefetch_related('participants')
+    today_events = base_query.filter(date=today).order_by('date')
+
+    # Count distinct participants across all events
+    participant_counts = Participant.objects.aggregate(
+        total_unique_participants=Count('id', distinct=True)
+    )
+
+    # Filtered event logic
+    if filter_type == 'upcoming':
+        filtered_events = base_query.filter(date__gt=today).order_by('date')
+        title = "Upcoming Events"
+    elif filter_type == 'past':
+        filtered_events = base_query.filter(date__lt=today).order_by('-date')
+        title = "Past Events"
+    elif filter_type == 'today':
+        filtered_events = base_query.filter(date=today)
+        title = "Today's Events"
+    else:
+        filtered_events = base_query.all().order_by('-date')
+        title = "All Events"
+
+    # Event counts
+    counts = Event.objects.aggregate(
+        total_events=Count('id'),
+        upcoming_events=Count('id', filter=Q(date__gt=today)),
+        past_events=Count('id', filter=Q(date__lt=today)),
+        today_events=Count('id', filter=Q(date=today))
+    )
+
+    context = {
+        'counts': counts,
+        'today_events': today_events,
+        'filtered_events': filtered_events,
+        'title': title,
+        'total_participants': participant_counts['total_unique_participants'],
+        'users': users
+    }
+    return render(request, 'admin/dashboard.html', context)
 
 
 @user_passes_test(is_admin, login_url='no-permission') 

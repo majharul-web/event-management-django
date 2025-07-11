@@ -1,4 +1,63 @@
-{% extends 'base.html' %}
-{% block content %}
-      {% include "admin/user_list.html" %}
+{% extends 'base.html' %} {% block content %} {% comment %} 📊 Stats Grid {% endcomment %}
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10 text-center">
+  <a href="?filter=all" class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition duration-200">
+    <h2 class="text-lg font-semibold text-gray-700">Total Events</h2>
+    <p class="text-3xl font-bold text-blue-600 mt-2">{{ counts.total_events }}</p>
+  </a>
+
+  <a
+    href="?filter=upcoming"
+    class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition duration-200"
+  >
+    <h2 class="text-lg font-semibold text-gray-700">Upcoming Events</h2>
+    <p class="text-3xl font-bold text-purple-600 mt-2">{{ counts.upcoming_events }}</p>
+  </a>
+
+  <a href="?filter=past" class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition duration-200">
+    <h2 class="text-lg font-semibold text-gray-700">Past Events</h2>
+    <p class="text-3xl font-bold text-red-600 mt-2">{{ counts.past_events }}</p>
+  </a>
+
+  <div class="bg-white p-6 rounded-lg shadow-md">
+    <h2 class="text-lg font-semibold text-gray-700">Total Participants</h2>
+    <p class="text-3xl font-bold text-green-600 mt-2">{{ total_participants }}</p>
+  </div>
+</div>
+
+{% comment %} Today's Events {% endcomment %}
+<div class="bg-white p-6 rounded-lg shadow-md mb-10">
+  <h2 class="text-xl font-semibold text-gray-800 mb-4">📅 Today's Events ({{counts.today_events}})</h2>
+  {% if today_events %}
+  <ul class="divide-y divide-gray-200">
+    {% for event in today_events %}
+    <li class="py-3">
+      <p class="text-lg font-medium text-gray-900">{{ event.name }}</p>
+      <p class="text-sm text-gray-500">{{ event.time }} at {{ event.location }}</p>
+    </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p class="text-gray-600">No events scheduled for today.</p>
+  {% endif %}
+</div>
+
+{% comment %} Filtered Events Listing {% endcomment %}
+<div class="bg-white p-6 rounded-lg shadow-md">
+  <h2 class="text-xl font-semibold text-gray-800 mb-4"><i class="fa-solid fa-list me-2"></i> {{ title }}</h2>
+  {% if filtered_events %}
+  <ul class="divide-y divide-gray-200">
+    {% for event in filtered_events %}
+    <li class="py-3">
+      <p class="font-semibold">{{ event.name }}</p>
+      <p class="text-sm text-gray-600">{{ event.date }} at {{ event.time }} — {{ event.location }}</p>
+      <p class="text-sm text-gray-500">
+        Category: {{ event.category.name }} | Participants: {{ event.participants.count }}
+      </p>
+    </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p class="text-gray-500">No events found for this filter.</p>
+  {% endif %}
+</div>
 {% endblock content %}
