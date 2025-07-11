@@ -16,13 +16,7 @@
       <a href="/" class="hover:underline">All Events</a>
 
       {% if user.is_authenticated %}
-        {% with group=user.groups.first %}
-          {% if group %}
-            {% if group.name == "Admin" or group.name == "Organizer" %}
-              <a href="{% url 'dashboard' %}" class="hover:underline">Dashboard</a>
-            {% endif %}
-          {% endif %}
-        {% endwith %}
+        <a href="{% url 'dashboard' %}" class="hover:underline">Dashboard</a>
         <form method="POST" action="{% url 'sign-out' %}">
           {% csrf_token %}
           <button type="submit" class="hover:underline">Logout</button>
@@ -52,13 +46,7 @@
         <a href="/" class="block hover:underline">All Events</a>
 
         {% if user.is_authenticated %}
-          {% with group=user.groups.first %}
-            {% if group %}
-              {% if group.name == "Admin" or group.name == "Organizer" %}
-                <a href="{% url 'dashboard' %}" class="block hover:underline">Dashboard</a>
-              {% endif %}
-            {% endif %}
-          {% endwith %}
+          <a href="{% url 'dashboard' %}" class="block hover:underline">Dashboard</a>
           <form method="POST" action="{% url 'sign-out' %}">
             {% csrf_token %}
             <button type="submit" class="w-full text-left hover:underline">Logout</button>

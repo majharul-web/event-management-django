@@ -271,11 +271,10 @@ def participant_delete(request, pk):
 
 @login_required
 def dashboard(request):
-    print("User:", request.user)
     if is_organizer(request.user):
         return redirect('organizer_dashboard')
     elif is_participant(request.user):
-        return redirect('home')
+        return redirect('participant-dashboard')
     elif is_admin(request.user):
         return redirect('admin-dashboard')
     return redirect('no-permission')

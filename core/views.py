@@ -47,6 +47,16 @@ def home(request):
 
     return render(request, 'home.html', context)
 
+def participant_dashboard(request):
+    participant_events = (
+        Event.objects
+        .select_related('category')
+        .prefetch_related('rsvps')
+        .filter(rsvps=request.user)
+    )
+    return render(request, 'participant_dashboard.html', {'participant_events': participant_events})
+
+
 def event_detail(request, pk):
     event = Event.objects.select_related('category').prefetch_related('participants').get(pk=pk)
     return render(request, 'event_detail.html', {'event': event})
