@@ -52,6 +52,7 @@ Participant credentials:
 
    ```
    pip install -r requirements.txt
+   npm install
    ```
 
 5. Apply database migrations:
@@ -67,6 +68,10 @@ Participant credentials:
    ```
 
 7. Run the development server:
+
+   ```
+   npm run watch:tailwind
+   ```
 
    ```
    python manage.py runserver
