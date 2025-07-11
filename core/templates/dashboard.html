@@ -1,4 +1,4 @@
-{% extends 'base.html' %} {% block content %} {% comment %} 📊 Stats Grid {% endcomment %}
+{% comment %} 📊 Stats Grid {% endcomment %}
 <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10 text-center">
   <a href="?filter=all" class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition duration-200">
     <h2 class="text-lg font-semibold text-gray-700">Total Events</h2>
@@ -60,4 +60,3 @@
   <p class="text-gray-500">No events found for this filter.</p>
   {% endif %}
 </div>
-{% endblock content %}

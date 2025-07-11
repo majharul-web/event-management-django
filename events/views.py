@@ -31,9 +31,9 @@ def organizer_dashboard(request):
     today_events = base_query.filter(date=today).order_by('date')
 
     # Count distinct participants across all events
-    participant_counts = User.objects.aggregate(
-        total_unique_participants=Count('id', distinct=True)
-    )
+    participant_counts = User.objects.filter(rsvped_events__isnull=False).aggregate(
+    total_unique_participants=Count('id', distinct=True)
+)
 
     # Filtered event logic
     if filter_type == 'upcoming':

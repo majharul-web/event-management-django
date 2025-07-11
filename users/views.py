@@ -9,7 +9,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.db.models import Prefetch
-from events.models import Event, Participant
+from events.models import Event
 from datetime import date
 from django.db.models import Q,Count
 
@@ -108,9 +108,9 @@ def admin_dashboard(request):
     today_events = base_query.filter(date=today).order_by('date')
 
     # Count distinct participants across all events
-    participant_counts = Participant.objects.aggregate(
-        total_unique_participants=Count('id', distinct=True)
-    )
+    participant_counts = User.objects.filter(rsvped_events__isnull=False).aggregate(
+    total_unique_participants=Count('id', distinct=True)
+)
 
     # Filtered event logic
     if filter_type == 'upcoming':
@@ -142,7 +142,7 @@ def admin_dashboard(request):
         'total_participants': participant_counts['total_unique_participants'],
         'users': users
     }
-    return render(request, 'admin/dashboard.html', context)
+    return render(request, 'admin/admin_dashboard.html', context)
 
 
 @user_passes_test(is_admin, login_url='no-permission') 
