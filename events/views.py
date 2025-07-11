@@ -193,15 +193,6 @@ def rsvp_event(request, pk):
         event.rsvps.add(request.user)
         messages.success(request, "RSVP successful!")
 
-        # Send confirmation email
-        send_mail(
-            subject="RSVP Confirmation - Event Manager",
-            message=f"Hi {request.user.first_name},\n\nYou've successfully RSVP'd to: {event.name} on {event.date} at {event.time}.\n\nLocation: {event.location}",
-            from_email=settings.EMAIL_HOST_USER,
-            recipient_list=[request.user.email],
-            fail_silently=True,
-        )
-
     return redirect('event_detail', pk=event.id)
 
 
