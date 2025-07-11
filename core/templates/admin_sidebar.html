@@ -13,9 +13,15 @@
       </a>
     </li>
     <li>
+      <a href="{% url 'participant_list' %}"
+         class="block px-3 py-2 rounded hover:underline {% if request.path == '/events/participants/' %}bg-blue-100 text-blue-600 font-semibold{% endif %}">
+        Manage Participants
+      </a>
+    </li>
+    <li>
       <a href="{% url 'group-list' %}"
          class="block px-3 py-2 rounded hover:underline {% if request.path == '/users/admin/group-list/' %}bg-blue-100 text-blue-600 font-semibold{% endif %}">
-        Group List
+        Manage Group
       </a>
     </li>
     <li>

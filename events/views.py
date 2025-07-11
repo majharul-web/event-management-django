@@ -197,11 +197,13 @@ def rsvp_event(request, pk):
 
 
 # ---------- PARTICIPANT ----------
+
 def participant_list(request):
-    participants = Participant.objects.all().prefetch_related('event')
+    participants = User.objects.filter(rsvped_events__isnull=False).distinct().prefetch_related('rsvped_events')
     return render(request, 'events/participant_list.html', {
         'participants': participants,
     })
+
 
 def participant_create(request):
     form = ParticipantForm(request.POST or None)

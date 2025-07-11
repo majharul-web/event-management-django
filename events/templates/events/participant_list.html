@@ -3,11 +3,11 @@
 
 <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
   <h1 class="text-xl md:text-2xl font-bold">🧑 Participants</h1>
-  <div class="flex justify-end w-full md:w-auto">
+  {% comment %} <div class="flex justify-end w-full md:w-auto">
     <a href="{% url 'participant_create' %}" class="btn-primary">
       <i class="fa-solid fa-circle-plus me-2"></i> Add Participant
     </a>
-  </div>
+  </div> {% endcomment %}
 </div>
 
 
@@ -27,11 +27,11 @@
     <tbody>
       {% for participant in participants %}
       <tr class="border-t hover:bg-gray-50 text-sm md:text-base">
-        <td class="px-4 py-3">{{ participant.name }}</td>
+        <td class="px-4 py-3">{{ participant.get_full_name|default:participant.username }}</td>
         <td class="px-4 py-3">{{ participant.email }}</td>
         <td class="px-4 py-3 text-sm text-gray-700">
           <ul class="list-disc ml-5">
-            {% for event in participant.event.all %}
+            {% for event in participant.rsvped_events.all %}
               <li>{{ event.name }}</li>
             {% empty %}
               <li>No events</li>
@@ -39,13 +39,14 @@
           </ul>
         </td>
         <td class="px-4 py-3 text-right flex space-x-4">
-          <a href="{% url 'participant_update' participant.pk %}" class="text-blue-600 hover:underline">Edit</a>
+          {% comment %} <a href="{% url 'participant_update' participant.pk %}" class="text-blue-600 hover:underline">Edit</a>
           <form action="{% url 'participant_delete' participant.pk %}" method="POST" onsubmit="return confirm('Delete this participant?');">
             {% csrf_token %}
             <button type="submit" class="text-red-600 hover:underline">Delete</button>
-          </form>
+          </form> {% endcomment %}
         </td>
       </tr>
+
       {% empty %}
       <tr>
         <td colspan="4" class="text-center py-4 text-gray-500">No participants found.</td>
