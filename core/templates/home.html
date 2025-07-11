@@ -41,26 +41,45 @@
 <section class="py-12">
   <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
     {% for event in events %}
-    <a href="{% url 'event_detail' event.pk %}" class="block bg-white rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition no-underline text-inherit">
-      {% if event.asset %}
-        <img
-          src="{{ event.asset.url }}"
-          alt="Task Asset"
-          class="h-48 w-full object-cover"
+      <div class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition">
+        {% if event.asset %}
+          <img
+            src="{{ event.asset.url }}"
+            alt="Task Asset"
+            class="h-48 w-full object-cover"
           />
-      {% else %}
-        <p class="text-gray-500 italic">No asset found!</p>
-      {% endif %}
-      {% comment %} <img src="{{ event.image_url|default:'/static/images/hero.jpg' }}" alt="{{ event.name }}" class="h-48 w-full object-cover"> {% endcomment %}
-      <div class="p-6">
-        <h3 class="text-2xl font-semibold mb-2">{{ event.name }}</h3>
-        <p class="text-sm text-gray-600 mb-1"><i class="fa-solid fa-calendar-days me-2"></i>{{ event.date }} at {{ event.time }}</p>
-        <p class="text-sm text-gray-600 mb-1"><i class="fa-solid fa-location-dot me-2 text-primary"></i> {{ event.location }}</p>
-        <p class="text-sm text-gray-600 mb-3">Category: {{ event.category.name }}</p>
-        <p class="text-sm text-gray-600 mb-4">{{ event.rsvps.count }} participants</p>
-        
+        {% else %}
+          <p class="text-gray-500 italic">No asset found!</p>
+        {% endif %}
+
+        <div class="p-6">
+          <h3 class="text-2xl font-semibold mb-2">{{ event.name }}</h3>
+          <p class="text-sm text-gray-600 mb-1"><i class="fa-solid fa-calendar-days me-2"></i>{{ event.date }} at {{ event.time }}</p>
+          <p class="text-sm text-gray-600 mb-1"><i class="fa-solid fa-location-dot me-2 text-primary"></i> {{ event.location }}</p>
+          <p class="text-sm text-gray-600 mb-3">Category: {{ event.category.name }}</p>
+          <p class="text-sm text-gray-600 mb-4">{{ event.rsvps.count }} participants</p>
+
+          <!-- Action Buttons -->
+          <div class="flex gap-x-5 items-center mt-4">
+             {% if user.is_authenticated %}
+              <form method="POST" action="{% url 'rsvp_event' event.id %}">
+                {% csrf_token %}
+                <button type="submit" class="bg-primary-gradient text-white px-4 py-2 rounded hover:bg-primary-gradient-reverse transition-colors">
+                  RSVP
+                </button>
+              </form>
+            {% else %}
+              <a href="{% url 'sign-in' %}" class="bg-primary-gradient text-white px-4 py-2 rounded hover:bg-primary-gradient-reverse transition-colors">
+                RSVP
+              </a>
+            {% endif %}
+            
+            <a href="{% url 'event_detail' event.pk %}" class="btn-primary">Details</a>
+            
+          </div>
+        </div>
       </div>
-    </a>
+
     {% empty %}
     <p class="text-center text-gray-600 col-span-full">No events found.</p>
     {% endfor %}
