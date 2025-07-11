@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.core.mail import send_mail
 from django.conf import settings
 from users.views import is_admin
+from django.contrib.auth.models import User
 
 def is_organizer(user):
     return user.groups.filter(name='Organizer').exists()
@@ -30,7 +31,7 @@ def organizer_dashboard(request):
     today_events = base_query.filter(date=today).order_by('date')
 
     # Count distinct participants across all events
-    participant_counts = Participant.objects.aggregate(
+    participant_counts = User.objects.aggregate(
         total_unique_participants=Count('id', distinct=True)
     )
 
