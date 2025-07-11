@@ -6,6 +6,7 @@ urlpatterns = [
     
     path('events/<int:pk>/', views.event_detail, name='event_detail'),
     path('events/<int:pk>/join/', views.join_event, name='join_event'),
+    path('events/<int:pk>/rsvp/', views.rsvp_event, name='rsvp_event'),
 
 
     #Organizer Dashboard

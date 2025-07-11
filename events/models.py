@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
@@ -15,6 +16,7 @@ class Event(models.Model):
     time = models.TimeField()
     location = models.CharField(max_length=255)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='events')
+    rsvps = models.ManyToManyField(User, related_name='rsvped_events', blank=True)
 
     def __str__(self):
         return self.name
@@ -26,3 +28,5 @@ class Participant(models.Model):
 
     def __str__(self):
         return self.name
+
+# Admin credential

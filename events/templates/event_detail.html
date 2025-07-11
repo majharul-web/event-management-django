@@ -22,7 +22,7 @@
   </p>
   <h2 class="text-3xl font-bold text-gray-800 mb-4">{{ event.name }}</h2>
   <div class="mb-6">
-    <img src="{{ event.image_url|default:'/static/images/hero.jpg' }}" alt="{{ event.name }}" class="w-full h-64 object-cover rounded-md shadow-md">
+    <img src="{{ event.asset.url|default:'/static/images/hero.jpg' }}" alt="{{ event.name }}" class="w-full h-64 object-cover rounded-md shadow-md">
   </div>
 
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-gray-700">
@@ -33,23 +33,44 @@
       <p><strong>Location:</strong> {{ event.location }}</p>
       
     </div>
+
+    
     <div>
-      <h3 class="text-lg font-semibold mb-2">Participants ({{ event.participants.count }})</h3>
-      {% if event.participants.all %}
-      <ul class="list-disc list-inside max-h-48 overflow-auto">
-        {% for participant in event.participants.all %}
-          <li>{{ participant.name }} </li>
-        {% endfor %}
-      </ul>
+      <h3 class="text-lg font-semibold mb-2">Participants ({{ event.rsvps.count }})</h3>
+
+      {% if event.rsvps.all %}
+        <ul class="list-disc list-inside max-h-48 overflow-auto">
+          {% for participant in event.rsvps.all %}
+            <li>{{ participant.get_full_name|default:participant.username }}</li>
+          {% endfor %}
+        </ul>
       {% else %}
         <p>No participants yet.</p>
       {% endif %}
-      <div class="mt-4 ">
-        <a href="{% url 'join_event' event.pk %}" class="bg-primary-gradient text-white px-4 py-2 rounded hover:bg-primary-gradient-reverse transition-colors">Participate</a>
+
+      <div class="mt-4">
+        {% if user.is_authenticated %}
+        {% if user not in event.rsvps.all %}
+          <form method="POST" action="{% url 'rsvp_event' event.id %}">
+            {% csrf_token %}
+            <button type="submit" class="bg-primary-gradient text-white px-4 py-2 rounded hover:bg-primary-gradient-reverse transition-colors">RSVP</button>
+          </form>
+        {% else %}
+          <p class="text-green-600">✅ You have RSVP'd</p>
+        {% endif %}
+      {% else %}
+        <a href="{% url 'sign-in' %}" class="text-blue-500 underline">Sign in to RSVP</a>
+      {% endif %}
       </div>
     </div>
+
+
   </div>
 
+  {% comment %} <div class="mt-4">
+    <h3 class="text-lg font-semibold mb-1">Organizer : </h3>
+    <p class="text-gray-600">{{ event.organizer.get_full_name|default:'demo' }}</p>
+  </div> {% endcomment %}
   <div class="mt-4">
     <h3 class="text-lg font-semibold mb-1">Description : </h3>
     <p class="text-gray-600">{{ event.description|default:"No description available." }}</p>

@@ -5,6 +5,8 @@ from datetime import date
 from django.db.models import Q,Count
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
+from django.core.mail import send_mail
+from django.conf import settings
 from users.views import is_admin
 
 def is_organizer(user):
@@ -165,6 +167,32 @@ def event_delete(request, pk):
     else:
         messages.error(request, "Invalid request method.")
     return redirect('event_list')
+
+@login_required
+def rsvp_event(request, pk):
+    try:
+        event = Event.objects.get(pk=pk)
+    except Event.DoesNotExist:
+        messages.error(request, "Event not found.")
+        return redirect('/')
+
+    # Prevent duplicate RSVP
+    if request.user in event.rsvps.all():
+        messages.warning(request, "You have already RSVP'd to this event.")
+    else:
+        event.rsvps.add(request.user)
+        messages.success(request, "RSVP successful!")
+
+        # Send confirmation email
+        send_mail(
+            subject="RSVP Confirmation - Event Manager",
+            message=f"Hi {request.user.first_name},\n\nYou've successfully RSVP'd to: {event.name} on {event.date} at {event.time}.\n\nLocation: {event.location}",
+            from_email=settings.EMAIL_HOST_USER,
+            recipient_list=[request.user.email],
+            fail_silently=True,
+        )
+
+    return redirect('event_detail', pk=event.id)
 
 
 # ---------- PARTICIPANT ----------
