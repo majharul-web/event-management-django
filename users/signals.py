@@ -30,7 +30,6 @@ def assign_default_role(sender, instance, created, **kwargs):
     if created:
         # Assign default role to the user
         user_group,created = Group.objects.get_or_create(name='Participant')
-        if created:
+        if user_group:
             instance.groups.add(user_group)
             instance.save()
-        
