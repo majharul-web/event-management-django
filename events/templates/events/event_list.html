@@ -33,7 +33,7 @@
         <td class="px-4 py-3">{{ event.date }}</td>
         <td class="px-4 py-3">{{ event.time }}</td>
         <td class="px-4 py-3">{{ event.location }}</td>
-        <td class="px-4 py-3">{{ {{ event.rsvps.count }} }}</td>
+        <td class="px-4 py-3">{{ event.rsvps.count }}</td>
         <td class="px-4 py-3 text-right flex space-x-4">
             <a href="{% url 'event_update' event.pk %}" class="text-blue-600 hover:underline">Edit</a>
             <form action="{% url 'event_delete' event.pk %}" method="POST" class="inline-block ml-2" onsubmit="return confirm('Delete this event?');">
