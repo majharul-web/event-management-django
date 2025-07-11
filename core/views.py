@@ -2,9 +2,9 @@
 from django.shortcuts import render
 from django.contrib import messages
 from events.models import Category, Event
-from datetime import date
-from django.db.models import Q,Count
+from django.db.models import Q
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
@@ -47,6 +47,7 @@ def home(request):
 
     return render(request, 'home.html', context)
 
+@login_required
 def participant_dashboard(request):
     participant_events = (
         Event.objects

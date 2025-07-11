@@ -4,7 +4,7 @@ from .forms import CategoryForm, EventForm, ParticipantForm
 from datetime import date
 from django.db.models import Q,Count
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.mail import send_mail
 from django.conf import settings
 from users.views import is_admin
@@ -23,6 +23,7 @@ def event_detail(request, pk):
     return render(request, 'event_detail.html', {'event': event})
 
 # ---------- DASHBOARD ----------
+@login_required
 def organizer_dashboard(request):
     today = date.today()
     filter_type = request.GET.get('filter', 'all')
@@ -70,10 +71,12 @@ def organizer_dashboard(request):
 
 
 # ---------- CATEGORY ----------
+@user_passes_test(lambda u: is_admin(u) or is_organizer(u), login_url='no-permission')
 def category_list(request):
     categories = Category.objects.all()
     return render(request, 'events/category_list.html', {'categories': categories})
 
+@user_passes_test(lambda u: is_admin(u) or is_organizer(u), login_url='no-permission')
 def category_create(request):
     form = CategoryForm(request.POST or None)
     if form.is_valid():
@@ -82,6 +85,7 @@ def category_create(request):
         return redirect('category_list')
     return render(request, 'events/form.html', {'form': form, 'title': 'Add Category'})
 
+@user_passes_test(lambda u: is_admin(u) or is_organizer(u), login_url='no-permission')
 def category_update(request, pk):
     try:
         category = Category.objects.get(pk=pk)
@@ -100,6 +104,7 @@ def category_update(request, pk):
 
     return render(request, 'events/form.html', {'form': form, 'title': 'Edit Category'})
 
+@user_passes_test(lambda u: is_admin(u) or is_organizer(u), login_url='no-permission')
 def category_delete(request, pk):
     try:
         category = Category.objects.get(pk=pk)
@@ -116,6 +121,8 @@ def category_delete(request, pk):
 
 
 # ---------- EVENT ----------
+
+@user_passes_test(lambda u: is_admin(u) or is_organizer(u), login_url='no-permission')
 def event_list(request):
     search = request.GET.get('q', '')
     events = Event.objects.select_related('category').prefetch_related('participants')
@@ -123,6 +130,7 @@ def event_list(request):
         events = events.filter(Q(name__icontains=search) | Q(location__icontains=search))
     return render(request, 'events/event_list.html', {'events': events})
 
+@user_passes_test(lambda u: is_admin(u) or is_organizer(u), login_url='no-permission')
 def event_create(request):
     if request.method == 'POST':
         form = EventForm(request.POST,request.FILES)
@@ -134,7 +142,7 @@ def event_create(request):
         form = EventForm()  
     return render(request, 'events/form.html', {'form': form, 'title': 'Add Event'})
 
-
+@user_passes_test(lambda u: is_admin(u) or is_organizer(u), login_url='no-permission')
 def event_update(request, pk):
     try:
         event = Event.objects.get(pk=pk)
@@ -155,6 +163,7 @@ def event_update(request, pk):
 
     return render(request, 'events/form.html', {'form': form, 'title': 'Edit Event'})
 
+@user_passes_test(lambda u: is_admin(u) or is_organizer(u), login_url='no-permission')
 def event_delete(request, pk):
     try:
         event = Event.objects.get(pk=pk)
@@ -198,13 +207,14 @@ def rsvp_event(request, pk):
 
 # ---------- PARTICIPANT ----------
 
+@user_passes_test(lambda u: is_admin(u) or is_organizer(u), login_url='no-permission')
 def participant_list(request):
     participants = User.objects.filter(rsvped_events__isnull=False).distinct().prefetch_related('rsvped_events')
     return render(request, 'events/participant_list.html', {
         'participants': participants,
     })
 
-
+@user_passes_test(lambda u: is_admin(u) or is_organizer(u), login_url='no-permission')
 def participant_create(request):
     form = ParticipantForm(request.POST or None)
     if form.is_valid():
@@ -213,6 +223,7 @@ def participant_create(request):
         return redirect('participant_list')
     return render(request, 'events/form.html', {'form': form, 'title': 'Add Participant'})
 
+@login_required
 def join_event(request, pk):
     try:
         event = Event.objects.get(pk=pk)
@@ -238,7 +249,7 @@ def join_event(request, pk):
         'event_id': event.id  
     })
 
-
+@user_passes_test(lambda u: is_admin(u) or is_organizer(u), login_url='no-permission')
 def participant_update(request, pk):
     try:
         participant = Participant.objects.get(pk=pk)
@@ -257,6 +268,7 @@ def participant_update(request, pk):
 
     return render(request, 'events/form.html', {'form': form, 'title': 'Edit Participant'})
 
+@user_passes_test(lambda u: is_admin(u) or is_organizer(u), login_url='no-permission')
 def participant_delete(request, pk):
     try:
         participant = Participant.objects.get(pk=pk)
