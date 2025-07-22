@@ -1,8 +1,11 @@
 from django.contrib.auth.forms import UserCreationForm,AuthenticationForm
 from django import forms 
-from django.contrib.auth.models import User,Permission, Group
+from django.contrib.auth.models import Permission, Group
 import re
 from events.forms import StyledFormMixin
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 class StyledFormMixinA:
     """ Mixing to apply style to form field"""

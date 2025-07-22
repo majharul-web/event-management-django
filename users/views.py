@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User,Group
+from django.contrib.auth.models import Group
 from users.forms import SignUpModelForm,SignInModelForm,AssignRoleForm,CreateGroupForm
 from django.shortcuts import redirect
 from django.contrib.auth import login, authenticate, logout
@@ -12,6 +12,9 @@ from django.db.models import Prefetch
 from events.models import Event
 from datetime import date
 from django.db.models import Q,Count
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 # Create your views here.
 

@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.conf import settings
 
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
@@ -16,7 +16,7 @@ class Event(models.Model):
     time = models.TimeField()
     location = models.CharField(max_length=255)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='events')
-    rsvps = models.ManyToManyField(User, related_name='rsvped_events', blank=True)
+    rsvps = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='rsvped_events', blank=True)
 
     def __str__(self):
         return self.name
