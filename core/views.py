@@ -48,14 +48,14 @@ def home(request):
     return render(request, 'home.html', context)
 
 @login_required
-def participant_dashboard(request):
+def my_events(request):
     participant_events = (
         Event.objects
         .select_related('category')
         .prefetch_related('rsvps')
         .filter(rsvps=request.user)
     )
-    return render(request, 'participant_dashboard.html', {'participant_events': participant_events})
+    return render(request, 'my_events.html', {'participant_events': participant_events})
 
 
 def event_detail(request, pk):

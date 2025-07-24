@@ -1,3 +1,5 @@
+{% load custom_filters %}
+
 <nav class="bg-primary-gradient text-white shadow-md relative z-50">
   <div class="container mx-auto px-6 py-4 flex justify-between items-center">
     <!-- Logo -->
@@ -16,11 +18,37 @@
       <a href="/" class="hover:underline">All Events</a>
 
       {% if user.is_authenticated %}
-        <a href="{% url 'dashboard' %}" class="hover:underline">Dashboard</a>
-        <form method="POST" action="{% url 'sign-out' %}">
-          {% csrf_token %}
-          <button type="submit" class="hover:underline">Logout</button>
-        </form>
+        
+        {% if user|not_in_group:"Participant" %}
+          <a href="{% url 'dashboard' %}" class="hover:underline">Dashboard</a>
+        {% else %}
+          <a href="{% url 'my_events' %}" class="hover:underline">My Events</a>
+        {% endif %}
+        <!-- Profile dropdown -->
+        <li class="relative inline-block">
+          <button id="profile-toggle" class="focus:outline-none">
+            <i class="fas fa-user-circle text-2xl text-white"></i>
+          </button>
+
+          <!-- Dropdown -->
+          <ul
+            id="profile-dropdown"
+            class="absolute right-0 mt-2 w-40 bg-white border rounded-md shadow-lg hidden z-50 text-black"
+          >
+            <li>
+              <a href="{% url 'profile' %}" class="block px-4 py-2 hover:bg-gray-100">Profile</a>
+            </li>
+            <li>
+              <a href="{% url 'my_events' %}" class="block px-4 py-2 hover:bg-gray-100">My Events</a>
+            </li>
+            <li>
+              <form method="POST" action="{% url 'sign-out' %}">
+                {% csrf_token %}
+                <button type="submit" class="w-full text-left px-4 py-2 hover:bg-gray-100">Logout</button>
+              </form>
+            </li>
+          </ul>
+        </li>
       {% else %}
         <a href="{% url 'sign-in' %}" class="hover:underline">Sign In</a>
         <a href="{% url 'sign-up' %}" class="hover:underline">Register</a>
@@ -46,6 +74,7 @@
         <a href="/" class="block hover:underline">All Events</a>
 
         {% if user.is_authenticated %}
+          <a href="{% url 'profile' %}" class="block hover:underline">Profile</a>
           <a href="{% url 'dashboard' %}" class="block hover:underline">Dashboard</a>
           <form method="POST" action="{% url 'sign-out' %}">
             {% csrf_token %}

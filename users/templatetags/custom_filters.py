@@ -16,3 +16,7 @@ def format_date(value):
         else:
             return f"{value.date()} at {value.strftime('%I:%M %p')}"
     return "No login data available"
+
+@register.filter
+def not_in_group(user, group_name):
+    return not user.groups.filter(name=group_name).exists()

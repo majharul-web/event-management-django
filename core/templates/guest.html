@@ -48,6 +48,26 @@
 
     {% comment %} JavaScript {% endcomment %}
     <script>
+
+      {% comment %}  Desktop profile dropdown {% endcomment %}
+      const profileToggle = document.getElementById("profile-toggle");
+      const profileDropdown = document.getElementById("profile-dropdown");
+
+      if (profileToggle && profileDropdown) {
+        profileToggle.addEventListener("click", (e) => {
+          e.stopPropagation();
+          profileDropdown.classList.toggle("hidden");
+        });
+
+        document.addEventListener("click", function (event) {
+          if (
+            !profileDropdown.contains(event.target) &&
+            !profileToggle.contains(event.target)
+          ) {
+            profileDropdown.classList.add("hidden");
+          }
+        });
+      }
       
       const toggleBtn = document.getElementById("mobile-menu-toggle");
       const menu = document.getElementById("mobile-menu");

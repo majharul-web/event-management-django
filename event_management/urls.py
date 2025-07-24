@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path,include
 from debug_toolbar.toolbar import debug_toolbar_urls
-from core.views import no_permission, home, about, participant_dashboard
+from core.views import no_permission, home, about, my_events
 from django.conf.urls.static import static
 from django.conf import settings
 
@@ -27,7 +27,7 @@ urlpatterns = [
     path('home/', home, name='home'),
     path('about/', about, name='about'),
     path('events/', include('events.urls')),
-    path('participant-dashboard/', participant_dashboard, name='participant-dashboard'),
+    path('my-events/', my_events, name='my_events'),
     path('no-permission/', no_permission, name='no-permission'),
     path('users/', include('users.urls')),
     
