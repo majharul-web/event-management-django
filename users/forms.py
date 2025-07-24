@@ -49,17 +49,6 @@ class StyledFormMixinA:
                     'class': 'form-input-guest',
                 })
 
-class SignUpForm(UserCreationForm):
-    class Meta:
-        model = UserCreationForm.Meta.model
-        fields = ('username','first_name', 'last_name', 'email', 'password', 'password2')
-
-    def __init__(self, *args, **kwargs):
-        super(UserCreationForm,self).__init__(*args, **kwargs)
-
-        for field in self.fields.values():
-            field.help_text= None
-
 class SignUpModelForm(StyledFormMixin,forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput)
     confirm_password = forms.CharField(widget=forms.PasswordInput)
