@@ -6,6 +6,7 @@ from events.forms import StyledFormMixin
 from django.contrib.auth import get_user_model
 from users.models import CustomUser
 from django.contrib.auth.forms import PasswordChangeForm,PasswordResetForm,SetPasswordForm
+from django.core.exceptions import ValidationError
 
 User = get_user_model()
 
@@ -77,7 +78,7 @@ class SignUpModelForm(StyledFormMixin,forms.ModelForm):
 
         return email
 
-    def clean_password1(self):
+    def clean_password(self):
         password = self.cleaned_data.get('password')
         errors = []
 
@@ -146,6 +147,14 @@ class EditProfileForm(StyledFormMixin, forms.ModelForm):
     class Meta:
         model = CustomUser
         fields = ['first_name', 'last_name', 'phone_number', 'profile_image']
+    
+    def clean_phone_number(self):
+        phone_number = self.cleaned_data.get('phone_number')
+        if not re.fullmatch(r'01[0-9]{9}', phone_number):
+            raise ValidationError("Enter a valid 11-digit Bangladeshi phone number starting with '01'.")
+
+        return phone_number
+
 
 class CustomPasswordChangeForm(StyledFormMixin, PasswordChangeForm):
     pass
