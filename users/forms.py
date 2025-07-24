@@ -5,6 +5,7 @@ import re
 from events.forms import StyledFormMixin
 from django.contrib.auth import get_user_model
 from users.models import CustomUser
+from django.contrib.auth.forms import PasswordChangeForm,PasswordResetForm,SetPasswordForm
 
 User = get_user_model()
 
@@ -145,3 +146,11 @@ class EditProfileForm(StyledFormMixin, forms.ModelForm):
     class Meta:
         model = CustomUser
         fields = ['first_name', 'last_name', 'phone_number', 'profile_image']
+
+class CustomPasswordChangeForm(StyledFormMixin, PasswordChangeForm):
+    pass
+class CustomPasswordResetForm(StyledFormMixin, PasswordResetForm):
+    pass
+
+class CustomPasswordResetConfirmForm(StyledFormMixin, SetPasswordForm):
+    pass
