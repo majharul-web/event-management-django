@@ -4,6 +4,7 @@ from django.contrib.auth.models import Permission, Group
 import re
 from events.forms import StyledFormMixin
 from django.contrib.auth import get_user_model
+from users.models import CustomUser
 
 User = get_user_model()
 
@@ -140,4 +141,7 @@ class CreateGroupForm(StyledFormMixin,forms.ModelForm):
             raise forms.ValidationError("Group with this name already exists.")
         return name
  
-       
+class EditProfileForm(StyledFormMixin, forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ['first_name', 'last_name', 'phone_number', 'profile_image']

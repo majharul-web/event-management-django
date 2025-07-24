@@ -2,15 +2,16 @@
 
 {% block content %}
     <div class="max-w-[600px] mx-5 md:mx-auto  my-12 p-5 bg-white shadow-md rounded-lg">
-        <p class="text-center text-lg font-semibold">Sign Up</p>
+        <p class="text-center text-lg font-semibold">Update Profile</p>
 
+        
         <div class="mt-5">
             {% if form.non_field_errors %}
                 {% for error in form.non_field_errors %}
                     <div class="text-red-500">{{ error }}</div>
                 {% endfor %}
             {% endif %}
-            <form action="" method="POST">
+            <form action="" method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
                 {% for field in form %}
                 <p>
@@ -26,10 +27,8 @@
                         {% endif %}
                 </p>
                 {% endfor %}
-                <button class="mt-5 bg-primary-gradient text-white px-4 py-2 rounded hover:bg-primary-gradient-reverse transition-colors w-full" type="submit">Sign Up</button>
-                <p class="mt-3 text-end">
-                    Already have an account? <a href="{% url 'sign-in' %}" class="text-red-500 underline">Sign In</a>
-                </p>
+                <button class="mt-5 bg-primary-gradient text-white px-4 py-2 rounded hover:bg-primary-gradient-reverse transition-colors w-full" type="submit">Update Profile</button>
+                
             </form>
         </div>
     </div>

@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import Group
-from users.forms import SignUpModelForm,SignInModelForm,AssignRoleForm,CreateGroupForm
+from users.forms import SignUpModelForm,SignInModelForm,AssignRoleForm,CreateGroupForm,EditProfileForm
 from django.shortcuts import redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
@@ -13,7 +13,8 @@ from events.models import Event
 from datetime import date
 from django.db.models import Q,Count
 from django.contrib.auth import get_user_model
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView,UpdateView
+
 
 User = get_user_model()
 
@@ -78,7 +79,18 @@ def activate_account(request, user_id, token):
     except User.DoesNotExist:
         messages.error(request, "User does not exist.")
         return redirect('sign-up')
-    
+class EditProfileView(UpdateView):
+    model = User
+    form_class = EditProfileForm
+    template_name = 'accounts/update_profile.html'
+    context_object_name = 'form'
+
+    def get_object(self):
+        return self.request.user
+
+    def form_valid(self, form):
+        form.save()
+        return redirect('profile')
 # Profile view
 class ProfileView(TemplateView):
     template_name = 'accounts/profile.html'
