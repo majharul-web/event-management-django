@@ -194,4 +194,6 @@ EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
 FRONTEND_URL = config('FRONTEND_URL', default='http://localhost:3000')
 
 # login URL f
-LOGIN_URL = 'sign-in'
+LOGIN_URL = '/users/sign-in/'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
