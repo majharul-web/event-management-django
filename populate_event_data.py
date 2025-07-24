@@ -1,57 +1,60 @@
 import os
 import django
 import random
-from datetime import datetime, timedelta
+from datetime import timedelta
 from faker import Faker
 
-# Set up Django environment
+# Django environment setup
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'event_management.settings')
 django.setup()
 
-from events.models import Category, Event, Participant  # change this
+from events.models import Category, Event, Participant
 
 fake = Faker()
 
-def populate():
-    # Create Categories
+def seed_database():
+    print("🌱 Seeding the database...")
+
+
+    # ✅ Create Categories
     categories = []
     for _ in range(5):
-        name = fake.unique.word().capitalize()
         category = Category.objects.create(
-            name=name,
+            name=fake.unique.word().capitalize(),
             description=fake.sentence()
         )
         categories.append(category)
     print(f"✅ Created {len(categories)} categories.")
 
-    # Create Events
+    # ✅ Create Events (no RSVPs at this point)
     events = []
     for _ in range(10):
-        date = fake.date_between(start_date='today', end_date='+60d')
-        time = fake.time()
         event = Event.objects.create(
             name=fake.catch_phrase(),
-            description=fake.paragraph(),
-            date=date,
-            time=time,
+            description=fake.paragraph(nb_sentences=3),
+            date=fake.date_between(start_date='today', end_date='+60d'),
+            time=fake.time(),
             location=fake.address(),
-            category=random.choice(categories)
+            category=random.choice(categories),
+            # asset uses default if not provided
         )
         events.append(event)
     print(f"✅ Created {len(events)} events.")
 
-    # Create Participants and assign them to random events
-    participants = []
-    for _ in range(20):
-        participant = Participant.objects.create(
-            name=fake.name(),
-            email=fake.unique.email()
-        )
-        participant.event.set(random.sample(events, random.randint(1, 3)))
-        participants.append(participant)
-    print(f"✅ Created {len(participants)} participants.")
+    # ✅ Create Participants and assign random events
+    # participants = []
+    # for _ in range(20):
+    #     participant = Participant.objects.create(
+    #         name=fake.name(),
+    #         email=fake.unique.email(),
+    #     )
+    #     # If Participant has ManyToManyField to Event
+    #     assigned_events = random.sample(events, k=random.randint(1, 3))
+    #     participant.event.set(assigned_events)
+    #     participants.append(participant)
+    # print(f"✅ Created {len(participants)} participants with event assignments.")
 
     print("🎉 Database seeded successfully!")
 
 if __name__ == "__main__":
-    populate()
+    seed_database()
