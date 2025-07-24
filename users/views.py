@@ -13,6 +13,7 @@ from events.models import Event
 from datetime import date
 from django.db.models import Q,Count
 from django.contrib.auth import get_user_model
+from django.views.generic import TemplateView
 
 User = get_user_model()
 
@@ -77,6 +78,25 @@ def activate_account(request, user_id, token):
     except User.DoesNotExist:
         messages.error(request, "User does not exist.")
         return redirect('sign-up')
+    
+# Profile view
+class ProfileView(TemplateView):
+    template_name = 'accounts/profile.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        context['username'] = user.username
+        context['email'] = user.email
+        context['name'] = user.get_full_name() or user.username
+        context['member_since'] = user.date_joined
+        context['last_login'] = user.last_login
+        context['phone_number'] = user.phone_number
+        if user.profile_image:
+            context['profile_image'] = user.profile_image.url
+        else:
+            context['profile_image'] = 'profile_images/default.png'
+        return context
 
 @user_passes_test(is_admin, login_url='no-permission')
 def user_list(request):

@@ -23,6 +23,6 @@ class CustomUserAdmin(UserAdmin):
         })
     )
 
-    list_display = ('username', 'email', 'first_name', 'last_name', 'is_staff', 'is_active')
-    search_fields = ('username', 'email', 'first_name', 'last_name')
+    list_display = ('username', 'email', 'phone_number', 'first_name', 'last_name', 'is_staff', 'is_active')
+    search_fields = ('username', 'email', 'first_name', 'last_name', 'phone_number')
     ordering = ('-username',)
