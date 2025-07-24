@@ -7,17 +7,17 @@ live link: [Event Management System](https://event-management-django-2.onrender.
 Admin credentials:
 
 - Username: admin
-- Password: 12345
+- Password: Admin@1#%
 
 Organizer credentials:
 
-- Username: majharul
-- Password: 12345
+- Username: organizer
+- Password: Organizers@1#%
 
 Participant credentials:
 
-- Username: mi
-- Password: 12345
+- Username: user
+- Password: Usersss@1#%
 
 ### Features
 
