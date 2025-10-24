@@ -16,6 +16,8 @@
     <!-- Desktop Nav Links -->
     <div class="hidden md:flex space-x-4 font-medium">
       <a href="/" class="hover:underline">All Events</a>
+      <a href="/about" class="hover:underline">About</a>
+      <a href="{% url 'contact' %}"  class="hover:underline">Contact</a>
 
       {% if user.is_authenticated %}
         

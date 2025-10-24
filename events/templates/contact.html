@@ -1,0 +1,84 @@
+{% extends "guest.html" %} {% block title %}Contact Us{% endblock title %} {% block content %}
+<section class="max-w-6xl mx-auto my-12 px-6 md:px-12">
+  <!-- Header -->
+  <div class="text-center mb-12">
+    <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-2">Get in Touch</h2>
+    <p class="text-gray-600 text-base md:text-lg">
+      Have questions, feedback, or partnership ideas? We’d love to hear from you!
+    </p>
+  </div>
+
+  <!-- Contact Info + Form -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+    <!-- Contact Info -->
+    <div class="bg-white shadow-md rounded-lg p-6 space-y-5">
+      <h3 class="text-xl font-semibold text-gray-800 mb-4">Contact Information</h3>
+      <div class="space-y-4 text-gray-700">
+        <p>
+          📍 <span class="font-medium">Office Location:</span><br />
+          Khilgaon, Dhaka, Bangladesh
+        </p>
+        <p>
+          📧 <span class="font-medium">Email:</span><br />
+          <a href="mailto:eventmanager@example.com" class="text-blue-600 hover:underline"
+            >eventmanager@example.com</a
+          >
+        </p>
+        <p>
+          📞 <span class="font-medium">Phone:</span><br />
+          <a href="tel:+8801234567890" class="text-blue-600 hover:underline">+880 1234-567890</a>
+        </p>
+      </div>
+
+      <!-- Google Map -->
+      <div class="mt-6">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3648.963134725591!2d90.40423651536392!3d23.78077748457435!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755c7ab2a68dc23%3A0xe2a76197f5e79ee2!2sBanani%2C%20Dhaka!5e0!3m2!1sen!2sbd!4v1695894723415!5m2!1sen!2sbd"
+          width="100%"
+          height="250"
+          style="border: 0"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          class="rounded-md"
+        ></iframe>
+      </div>
+    </div>
+
+    <!-- Contact Form -->
+    {% if messages %}
+    <div class="mb-4">
+      {% for message in messages %}
+      <div
+        class="p-3 rounded-md {% if message.tags == 'success' %}bg-green-100 text-green-700{% else %}bg-red-100 text-red-700{% endif %}"
+      >
+        {{ message }}
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+    <form action="" method="POST" class="space-y-4">
+      {% csrf_token %} {% for field in form %}
+      <div>
+        <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+          {{ field.label }}
+        </label>
+        {{ field }} {% if field.errors %}
+        <ul class="mt-1 text-red-500 text-sm">
+          {% for error in field.errors %}
+          <li>{{ error }}</li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+      </div>
+      {% endfor %}
+      <button
+        type="submit"
+        class="w-full bg-primary-gradient text-white px-4 py-2 rounded-md font-semibold hover:bg-primary-gradient-reverse transition-colors"
+      >
+        Send Message
+      </button>
+    </form>
+  </div>
+</section>
+{% endblock content %}

@@ -55,8 +55,8 @@ class SignUpModelForm(StyledFormMixin,forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ['username', 'first_name', 'last_name',
-                  'password', 'confirm_password', 'email']
+        fields = ['username','email', 'first_name', 'last_name',
+                  'password', 'confirm_password', ]
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
@@ -152,3 +152,14 @@ class CustomPasswordResetForm(StyledFormMixin, PasswordResetForm):
 
 class CustomPasswordResetConfirmForm(StyledFormMixin, SetPasswordForm):
     pass
+
+class ContactForm(forms.Form):
+    name = forms.CharField(max_length=100, label="Your Name", widget=forms.TextInput(attrs={
+        'class': 'w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary-400 outline-none'
+    }))
+    email = forms.EmailField(label="Your Email", widget=forms.EmailInput(attrs={
+        'class': 'w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary-400 outline-none'
+    }))
+    message = forms.CharField(label="Message", widget=forms.Textarea(attrs={
+        'class': 'w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary-400 outline-none h-28 resize-none'
+    }))

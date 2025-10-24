@@ -1,5 +1,5 @@
 from django.urls import path
-from users.views import  sign_out,activate_account, admin_dashboard,user_list, ProfileView,EditProfileView,CustomPasswordChangeView, CustomPasswordResetView, CustomPasswordResetConfirmView,GroupListView, AssignRoleView, CreateGroupView, CustomLoginView,SignUpView
+from users.views import  sign_out,activate_account, admin_dashboard,user_list, ProfileView,EditProfileView,CustomPasswordChangeView, CustomPasswordResetView, CustomPasswordResetConfirmView,GroupListView, AssignRoleView, CreateGroupView, CustomLoginView,SignUpView,ContactView
 from django.contrib.auth.views import PasswordChangeDoneView
 
 # users app url
@@ -9,6 +9,8 @@ urlpatterns = [
     path('sign-out/', sign_out, name='sign-out'),
     path('activate/<int:user_id>/<str:token>/', activate_account, name='activate-account'),
     path('profile/', ProfileView.as_view(), name='profile'),
+    path('contact/', ContactView.as_view(), name='contact'),
+
 
     path('admin/dashboard/', admin_dashboard, name='admin-dashboard'),
     path('admin/user-list/', user_list, name='user-list'),

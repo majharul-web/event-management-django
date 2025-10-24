@@ -1,16 +1,72 @@
+{% extends 'guest.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About</title>
-    <link rel="stylesheet" href="{% static "css/style.css" %}">
-    <link rel="stylesheet" href="{% static '/css/output.css' %}">
-</head>
-<body>
-    <p class="bg-gray-100">This is the about page of the event management system.</p>
-    <p class="text-3xl">Use the navigation menu to explore different sections.</p>
-    
-</body>
-</html>
+
+{% block title %}About Us{% endblock title %}
+
+{% block content %}
+
+<!-- About Section -->
+<section class="max-w-6xl mx-auto px-6 py-16 grid md:grid-cols-2 gap-10 items-center">
+  <div>
+    <img src="{% static 'images/event1.jpg' %}" 
+         alt="About Event" 
+         class="rounded-2xl shadow-lg w-full object-cover">
+  </div>
+  <div>
+    <h2 class="text-3xl font-semibold text-primary mb-4">Who We Are</h2>
+    <p class="text-gray-700 mb-4 leading-relaxed">
+      We are passionate about transforming the way people organize and experience events.
+      Our platform allows event organizers to create, manage, and promote their events seamlessly,
+      while providing participants an effortless registration experience.
+    </p>
+    <p class="text-gray-700 mb-4 leading-relaxed">
+      Whether you’re hosting a small workshop or a large conference, our system ensures that every event
+      runs smoothly with a modern, responsive, and user-friendly interface.
+    </p>
+    <a href="{% url 'contact' %}" 
+       class="inline-block mt-4 bg-primary-gradient text-white px-6 py-2 rounded-full hover:bg-primary-gradient-reverse transition">
+      Contact Us
+    </a>
+  </div>
+</section>
+
+<!-- Mission Section -->
+<section class="text-center px-6">
+  <h2 class="text-3xl font-semibold text-primary mb-6">Our Mission</h2>
+  <p class="text-gray-700 text-lg leading-relaxed max-w-3xl mx-auto">
+    To make event management smarter, simpler, and more efficient — empowering organizers
+    with powerful tools to plan successful events and connect meaningfully with their audiences.
+  </p>
+</section>
+
+<!-- Team Section -->
+<section class=" py-16 mt-8">
+  <div class="max-w-6xl mx-auto px-6">
+    <h2 class="text-3xl font-semibold text-primary text-center mb-12">Meet Our Team</h2>
+    <div class="grid gap-8 md:grid-cols-3">
+      <div class="text-center bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
+        <img src="{% static 'images/man1.jpg' %}" 
+             alt="Majharul Islam" 
+             class="w-32 h-32 rounded-full mx-auto mb-4 object-cover border-4 border-primary/30">
+        <h3 class="text-xl font-semibold text-gray-800">Majharul Islam</h3>
+        <p class="text-gray-600">Organizer</p>
+      </div>
+      <div class="text-center bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
+        <img src="{% static 'images/girl1.jpg' %}" 
+             alt="Sadia Rahman" 
+             class="w-32 h-32 rounded-full mx-auto mb-4 object-cover border-4 border-primary/30">
+        <h3 class="text-xl font-semibold text-gray-800">Sadia Rahman</h3>
+        <p class="text-gray-600">Reservation Officer</p>
+      </div>
+      <div class="text-center bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
+        <img src="{% static 'images/man2.jpg' %}" 
+             alt="Rakib Hossain" 
+             class="w-32 h-32 rounded-full mx-auto mb-4 object-cover border-4 border-primary/30">
+        <h3 class="text-xl font-semibold text-gray-800">Rakib Hossain</h3>
+        <p class="text-gray-600">Volunteer</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

@@ -1,4 +1,85 @@
 {% comment %} Footer {% endcomment %}
-<footer class="bg-rose-300 text-black py-4">
-  <div class="container mx-auto text-center text-sm">© {% now "Y" %} Event Manager. All rights reserved.</div>
+<footer class="w-full bg-white text-gray-800 border-t border-muted-200">
+  <!-- Top Section: Address & Contact -->
+  <div class="max-w-7xl mx-auto px-6 py-8 flex flex-col md:flex-row justify-between gap-8">
+    <!-- Office Address -->
+    <div class="flex-1">
+      <h3 class="text-lg font-semibold mb-2 text-primary-700">Office Address</h3>
+      <p class="text-sm text-muted-600 leading-relaxed">Khilgaon, Dhaka, Bangladesh</p>
+    </div>
+
+    <!-- Contact Info -->
+    <div class="flex-1">
+      <h3 class="text-lg font-semibold mb-2 text-primary-700">Contact Info</h3>
+      <p class="text-sm text-muted-600 leading-relaxed">
+        Email Address:
+        <a href="mailto:eventmanager@example.com" class="hover:text-primary-500 transition-colors">
+          eventmanager@example.com
+        </a>
+        <br />
+        Mobile Number:
+        <a href="tel:+8801234567890" class="hover:text-primary-500 transition-colors"> +8801234567890 </a>
+      </p>
+    </div>
+
+    <!-- Social Media -->
+    <div class="flex-1">
+      <h3 class="text-lg font-semibold mb-3 text-primary-700">Follow Us</h3>
+      <div class="flex space-x-3">
+        <a
+          href="{{ APP_CONFIG.FACEBOOK_URL|default:'#' }}"
+          target="_blank"
+          class="w-10 h-10 flex items-center justify-center rounded-full border border-muted-300 text-muted-600 hover:bg-primary-500 hover:text-white transition-all duration-300"
+        >
+          <i class="fa-brands fa-facebook-f"></i>
+        </a>
+
+        <a
+          href="{{ APP_CONFIG.TWITTER_URL|default:'#' }}"
+          target="_blank"
+          class="w-10 h-10 flex items-center justify-center rounded-full border border-muted-300 text-muted-600 hover:bg-primary-500 hover:text-white transition-all duration-300"
+        >
+          <i class="fa-brands fa-twitter"></i>
+        </a>
+
+        <a
+          href="{{ APP_CONFIG.LINKEDIN_URL|default:'#' }}"
+          target="_blank"
+          class="w-10 h-10 flex items-center justify-center rounded-full border border-muted-300 text-muted-600 hover:bg-primary-500 hover:text-white transition-all duration-300"
+        >
+          <i class="fa-brands fa-linkedin-in"></i>
+        </a>
+
+        <a
+          href="{{ APP_CONFIG.INSTAGRAM_URL|default:'#' }}"
+          target="_blank"
+          class="w-10 h-10 flex items-center justify-center rounded-full border border-muted-300 text-muted-600 hover:bg-primary-500 hover:text-white transition-all duration-300"
+        >
+          <i class="fa-brands fa-instagram"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Middle Section: Links -->
+  <div
+    class="max-w-7xl mx-auto px-6 py-4 md:py-6 flex flex-col md:flex-row md:items-center justify-center gap-4 md:gap-6 border-t border-muted-200"
+  >
+    <div class="flex flex-wrap justify-center gap-4 text-sm text-muted-600 items-center">
+      <a href="/privacy" class="hover:text-primary-500 transition-colors">Privacy Policy</a>
+      <span class="hidden md:inline-block border-l border-muted-300 h-4"></span>
+      <a href="/terms" class="hover:text-primary-500 transition-colors">Terms of Service</a>
+      <span class="hidden md:inline-block border-l border-muted-300 h-4"></span>
+      <a href="{% url 'contact' %}" class="hover:text-primary-500 transition-colors">Contact</a>
+    </div>
+  </div>
+
+  <!-- Bottom Section: Copyright -->
+  <div class="border-t border-muted-200">
+    <p class="text-center text-sm text-muted-500 py-4">
+      © {% now "Y" %}.
+      <span class="font-semibold text-primary-500">{{ APP_CONFIG.APP_NAME|default:"Event Manager" }}</span>.
+      All rights reserved.
+    </p>
+  </div>
 </footer>

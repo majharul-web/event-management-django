@@ -10,7 +10,7 @@
   class="relative bg-cover bg-center bg-no-repeat py-20 text-center animate-fadeIn h-[300px] md:h-[400px]"
   style="background-image: url('{% static 'images/hero.jpg' %}');"
 >
-  <div class="absolute inset-0 bg-primary-500/60"></div> 
+  <div class="absolute inset-0"></div> 
   
 </section>
 
@@ -74,7 +74,7 @@
               </a>
             {% endif %}
             
-            <a href="{% url 'event_detail' event.pk %}" class="btn-primary">Details</a>
+            <a href="{% url 'event_detail' event.pk %}" class="btn-outline ">Details</a>
             
           </div>
         </div>

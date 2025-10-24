@@ -3,31 +3,99 @@
 @tailwind utilities;
 
 @layer base {
+  /* Labels */
   label {
-    @apply block text-sm font-medium text-gray-700 mb-2;
+    @apply block text-sm font-medium text-muted-500 mb-2;
   }
 
+  /* Table styles */
+  table {
+    @apply min-w-full bg-white shadow-md rounded-lg overflow-hidden;
+  }
+
+  th {
+    @apply px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider bg-primary-400;
+  }
+
+  td {
+    @apply px-4 py-3 whitespace-nowrap text-muted-800;
+  }
+
+  tr:nth-child(even) {
+    @apply bg-muted-50;
+  }
+
+  tr:hover {
+    @apply bg-primary-50 transition-colors;
+  }
+
+  /* Gradients */
   .bg-primary-gradient {
-    @apply bg-gradient-to-r from-rose-300 to-rose-500;
+    @apply bg-gradient-to-r from-primary-300 to-primary-500;
   }
   .bg-primary-gradient-reverse {
-    @apply bg-gradient-to-r from-rose-500 to-rose-300;
+    @apply bg-gradient-to-r from-primary-500 to-primary-300;
+  }
+
+  .bg-secondary-gradient {
+    @apply bg-gradient-to-r from-secondary-300 to-secondary-500;
+  }
+  .bg-secondary-gradient-reverse {
+    @apply bg-gradient-to-r from-secondary-500 to-secondary-300;
+  }
+
+  /* Form inputs */
+  .form-input {
+    @apply border border-muted-300 w-full px-4 py-2.5 rounded-lg shadow-sm ring-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50 mb-4;
   }
 
   .form-input-guest {
-    @apply border border-primary w-full px-4 py-2 rounded-lg shadow-sm ring-primary focus:outline-none focus:ring-2 focus:ring-opacity-50 mb-4;
+    @apply border border-muted-300 w-full px-4 py-2 rounded-lg shadow-sm ring-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50 mb-4;
   }
-  .form-input {
-    @apply border border-blue-500 w-full px-4 py-2.5 rounded-lg shadow-sm ring-blue-500 focus:outline-none focus:ring-2 focus:ring-opacity-50 mb-4;
-  }
+
+  /* Buttons */
   .btn-primary {
-    @apply bg-blue-500 hover:bg-blue-600 text-white font-semibold py-1.5 px-3 md:px-4 md:py-2 rounded inline-block;
-  }
-  .btn-danger {
-    @apply bg-red-500 hover:bg-red-600 text-white font-semibold py-1.5 px-3 md:px-4 md:py-2 rounded inline-block;
+    @apply bg-primary-500 hover:bg-primary-600 text-white font-semibold py-1.5 px-3 md:px-4 md:py-2 rounded inline-block;
   }
 
   .btn-secondary {
-    @apply bg-gray-500 hover:bg-gray-600 text-white font-semibold py-1.5 px-3 md:px-4 md:py-2 rounded inline-block;
+    @apply bg-secondary-500 hover:bg-secondary-600 text-white font-semibold py-1.5 px-3 md:px-4 md:py-2 rounded inline-block;
+  }
+
+  .btn-success {
+    @apply bg-success-500 hover:bg-success-600 text-white font-semibold py-1.5 px-3 md:px-4 md:py-2 rounded inline-block;
+  }
+
+  .btn-warning {
+    @apply bg-warning-500 hover:bg-warning-600 text-white font-semibold py-1.5 px-3 md:px-4 md:py-2 rounded inline-block;
+  }
+
+  .btn-danger {
+    @apply bg-danger-500 hover:bg-danger-600 text-white font-semibold py-1.5 px-3 md:px-4 md:py-2 rounded inline-block;
+  }
+
+  .btn-outline {
+    @apply border border-primary-500 text-primary-500 hover:bg-primary-500 hover:text-white font-semibold py-1.5 px-3 md:px-4 md:py-2 rounded inline-block;
+  }
+
+  /* Misc text */
+  .text-muted {
+    @apply text-muted-500;
+  }
+
+  .text-secondary {
+    @apply text-secondary-600;
+  }
+
+  .text-success {
+    @apply text-success-600;
+  }
+
+  .text-warning {
+    @apply text-warning-600;
+  }
+
+  .text-danger {
+    @apply text-danger-600;
   }
 }

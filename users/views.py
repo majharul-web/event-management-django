@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth.models import Group
-from users.forms import SignUpModelForm,SignInModelForm,AssignRoleForm,CreateGroupForm,EditProfileForm, CustomPasswordChangeForm, CustomPasswordResetForm, CustomPasswordResetConfirmForm
+from users.forms import SignUpModelForm,SignInModelForm,AssignRoleForm,CreateGroupForm,EditProfileForm, CustomPasswordChangeForm, CustomPasswordResetForm, CustomPasswordResetConfirmForm,ContactForm
 from django.shortcuts import redirect,get_object_or_404
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
@@ -12,7 +12,7 @@ from events.models import Event
 from datetime import date
 from django.db.models import Q,Count
 from django.contrib.auth import get_user_model
-from django.views.generic import TemplateView,UpdateView,ListView,View
+from django.views.generic import TemplateView,UpdateView,ListView,View,FormView
 from django.contrib.auth.views import PasswordChangeView,PasswordResetView,PasswordResetConfirmView,LoginView
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
@@ -150,6 +150,22 @@ class ProfileView(TemplateView):
         else:
             context['profile_image'] = 'profile_images/default.png'
         return context
+
+
+
+class ContactView(FormView):
+    template_name = "contact.html"
+    form_class = ContactForm
+    success_url = reverse_lazy("contact")
+
+    def form_valid(self, form):
+        # ✅ Here you can send email or save to the database
+        messages.success(self.request, "Your message has been sent successfully!")
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, "Please correct the errors below.")
+        return super().form_invalid(form)
 
 class CustomPasswordChangeView(PasswordChangeView):
     template_name = 'accounts/password_change.html'
